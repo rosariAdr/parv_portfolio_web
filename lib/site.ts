@@ -4,8 +4,8 @@
 
 export const SITE = {
   name: "Parv Kaur",
-  /** Used as metadataBase + in sitemap/robots. Update to the real domain after deploy. */
-  url: "https://parv-kaur.vercel.app",
+  /** Used as metadataBase + in sitemap/robots. Production URL (update if you add a custom domain). */
+  url: "https://parv-portfolio-web.vercel.app",
   authorTitle: "Higher Education Consultant",
 } as const;
 
