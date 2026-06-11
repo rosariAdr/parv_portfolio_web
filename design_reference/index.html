@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Parv Kaur — Higher Education Consultant</title>
+<meta name="description" content="Parv Kaur — Marketing & Management lecturer and Higher Education Consultant across French business schools. BI, digital marketing and organisational behaviour, taught in English & French." />
+<link rel="stylesheet" href="css/style.css" />
+<style>
+/* ---------- HERO ---------- */
+.hero{padding-top:clamp(40px,6vw,72px);padding-bottom:clamp(48px,7vw,80px);}
+.hero-overline{margin-bottom:30px;}
+.hero-split{display:grid;grid-template-columns:1.15fr .85fr;gap:clamp(36px,5vw,72px);align-items:start;}
+.hero-copy .display{margin-bottom:26px;}
+.hero-copy .lead{margin-bottom:36px;}
+.hero-actions{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:54px;}
+.hero-stats-wrap{border-top:1px solid var(--hairline);padding-top:34px;}
+
+/* portrait card */
+.portrait-card{position:sticky;top:96px;}
+.portrait-slot{width:100%;aspect-ratio:4/4.6;background:var(--surface-tint);}
+.portrait-cta{display:flex;flex-direction:column;}
+.portrait-cta a{
+  display:flex;align-items:center;justify-content:space-between;
+  font-family:var(--mono);font-size:12.5px;letter-spacing:.1em;text-transform:uppercase;
+  padding:18px 22px;
+}
+.portrait-cta a:first-child{background:var(--accent-deep);color:#fff;}
+.portrait-cta a:first-child:hover{background:#73450c;}
+.portrait-cta a:last-child{background:var(--ink-strong);color:#fff;}
+.portrait-cta a:last-child:hover{background:#000;}
+
+/* editorial hero variant */
+body[data-hero="editorial"] .hero-split{grid-template-columns:1fr;gap:0;}
+body[data-hero="editorial"] .hero-copy .display{font-size:clamp(44px,7.4vw,92px);max-width:16ch;}
+body[data-hero="editorial"] .portrait-card{position:static;margin-top:48px;}
+body[data-hero="editorial"] .portrait-slot{aspect-ratio:16/7;}
+body[data-hero="editorial"] .portrait-cta{flex-direction:row;}
+body[data-hero="editorial"] .portrait-cta a{flex:1;justify-content:center;gap:12px;}
+body[data-hero="editorial"] .hero-stats-wrap{margin-top:46px;}
+@media(max-width:760px){
+  body[data-hero="editorial"] .portrait-cta{flex-direction:column;}
+}
+
+/* nav style variant: links pulled left next to brand */
+body[data-navstyle="left"] .nav-links{margin-right:auto;margin-left:clamp(24px,4vw,56px);}
+
+/* ---------- pull quote (reviews highlight) ---------- */
+.quote-band{background:var(--ink-strong);color:#fff;}
+.quote-band .wrap{padding-block:clamp(64px,9vw,108px);text-align:center;}
+.quote-band .mark{font-family:var(--serif);font-size:90px;line-height:0.4;color:var(--accent);display:block;margin-bottom:24px;}
+.quote-band blockquote{
+  font-family:var(--serif);font-weight:300;font-size:clamp(24px,3.4vw,40px);line-height:1.32;
+  max-width:20ch;margin:0 auto;letter-spacing:-.01em;text-wrap:balance;color:#fff;
+}
+.quote-band blockquote em{font-style:italic;color:var(--accent);}
+.quote-band cite{
+  display:block;margin-top:34px;font-family:var(--mono);font-size:12px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--on-dark-soft);font-style:normal;
+}
+.quote-band .voices-link{margin-top:40px;}
+.quote-band .voices-link a{color:#fff;border-color:rgba(255,255,255,.25);}
+.quote-band .voices-link a:hover{color:var(--accent);border-color:var(--accent);}
+
+/* ---------- featured cards ---------- */
+.featured-head{margin-bottom:56px;}
+.cards3{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:1px solid var(--hairline);}
+.fcard{padding:48px clamp(20px,2.4vw,34px);border-right:1px solid var(--hairline);text-align:center;}
+.fcard:last-child{border-right:0;}
+.fcard h3{font-size:23px;font-weight:500;margin-bottom:22px;min-height:2.4em;}
+.fcard-logos{display:flex;align-items:center;justify-content:center;gap:24px;height:78px;margin-bottom:30px;}
+.fcard-logos img{height:64px;width:auto;max-width:130px;object-fit:contain;}
+.fcard p{font-family:var(--serif);font-style:italic;font-size:15.5px;line-height:1.62;color:var(--ink-soft);text-align:left;}
+@media(max-width:860px){
+  .hero-split{grid-template-columns:1fr;}
+  .portrait-card{position:static;}
+  .portrait-slot{aspect-ratio:16/10;}
+  .cards3{grid-template-columns:1fr;}
+  .fcard{border-right:0;border-bottom:1px solid var(--hairline);}
+}
+
+/* ---------- options switcher ---------- */
+.options{position:fixed;right:18px;bottom:18px;z-index:80;font-family:var(--mono);}
+.options-toggle{
+  display:inline-flex;align-items:center;gap:9px;background:var(--ink-strong);color:#fff;
+  font-size:11px;letter-spacing:.12em;text-transform:uppercase;padding:12px 16px;box-shadow:0 8px 30px rgba(8,11,22,.28);
+}
+.options-toggle .dot{width:7px;height:7px;border-radius:50%;background:var(--accent);}
+.options-panel{
+  position:absolute;right:0;bottom:52px;width:248px;background:#fff;border:1px solid var(--hairline);
+  box-shadow:0 18px 50px rgba(8,11,22,.22);padding:18px;display:none;
+}
+.options.open .options-panel{display:block;}
+.options-panel h4{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-faint);font-weight:500;margin:14px 0 9px;}
+.options-panel h4:first-child{margin-top:0;}
+.opt-row{display:flex;gap:8px;}
+.opt-row button{
+  flex:1;font-family:var(--mono);font-size:11px;letter-spacing:.05em;text-transform:uppercase;
+  border:1px solid var(--hairline);padding:9px 6px;color:var(--ink-soft);transition:.18s;
+}
+.opt-row button.on{background:var(--ink-strong);color:#fff;border-color:var(--ink-strong);}
+.options-note{font-size:10px;letter-spacing:.04em;color:var(--ink-faint);margin-top:14px;line-height:1.5;text-transform:none;}
+</style>
+</head>
+<body data-page="home" data-hero="split" data-navstyle="center">
+
+<!-- ================= NAV ================= -->
+<header class="nav">
+  <div class="nav-inner">
+    <a class="brand" href="index.html"><b>PK</b> <span>|</span> Parv Kaur</a>
+    <nav class="nav-links">
+      <a href="index.html" data-nav="home" data-i18n="nav.home">Home</a>
+      <a href="experience.html" data-nav="experience" data-i18n="nav.experience">Experience</a>
+      <a href="teaching.html" data-nav="teaching" data-i18n="nav.teaching">Teaching</a>
+      <a href="voices.html" data-nav="voices" data-i18n="nav.voices">Student Voices</a>
+      <a href="about.html" data-nav="about" data-i18n="nav.about">About</a>
+      <a class="nav-extra" href="https://www.linkedin.com/in/parv-kaur-dtn-education-a40706145/" target="_blank" rel="noopener">LinkedIn ↗</a>
+      <a class="nav-extra" href="assets/Parv_KAUR_Resume.pdf" download>Download CV ↓</a>
+    </nav>
+    <div class="nav-right">
+      <div class="nav-icons">
+        <a class="nav-icon" href="https://www.linkedin.com/in/parv-kaur-dtn-education-a40706145/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.2 8h4.6v14H.2V8zm7.2 0h4.4v1.92h.06c.61-1.16 2.1-2.38 4.32-2.38 4.62 0 5.47 3.04 5.47 7v7.46h-4.6v-6.61c0-1.58-.03-3.61-2.2-3.61-2.2 0-2.54 1.72-2.54 3.5V22H7.4V8z"/></svg></a>
+        <a class="nav-icon" href="assets/Parv_KAUR_Resume.pdf" download aria-label="Download CV"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 4v12M6 11l6 6 6-6"/></svg></a>
+      </div>
+      <div class="lang" role="group" aria-label="Language">
+        <button data-lang="en">EN</button><span class="sep">/</span><button data-lang="fr">FR</button>
+      </div>
+      <a class="btn btn-primary" href="#contact"><span class="nav-cta-text" data-i18n="nav.cta">Get in touch</span><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <button class="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<!-- ================= HERO ================= -->
+<section class="hero wrap">
+  <div class="overline hero-overline"><span data-i18n="hero.role">Higher Education Consultant</span></div>
+  <div class="hero-split">
+    <div class="hero-copy reveal">
+      <h1 class="display" data-i18n="hero.title">Bridging <em>data, strategy</em> and the classroom across French business schools.</h1>
+      <p class="lead" data-i18n="hero.lead">Marketing &amp; Management lecturer since 2022 — teaching BI, digital marketing and organisational behaviour at undergraduate, master and MBA levels.</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#contact" data-i18n="hero.cta1">Get in touch</a>
+        <a class="btn btn-ghost" href="#contact" data-i18n="hero.cta2">Download CV</a>
+      </div>
+      <div class="hero-stats-wrap">
+        <div class="stats">
+          <div class="stat"><div class="n">4+</div><div class="l" data-i18n="stat.years">Years teaching</div></div>
+          <div class="stat"><div class="n">20+</div><div class="l" data-i18n="stat.inst">Institutions</div></div>
+          <div class="stat"><div class="n">100+</div><div class="l" data-i18n="stat.curr">Curriculums</div></div>
+          <div class="stat"><div class="n">30+</div><div class="l" data-i18n="stat.theses">Theses guided</div></div>
+        </div>
+        <div style="margin-top:30px"><span class="chip"><span class="pin"></span><span data-i18n="hero.chip">Courses delivered in English &amp; French</span></span></div>
+      </div>
+    </div>
+    <div class="portrait-card reveal">
+      <image-slot id="hero-portrait" class="portrait-slot" shape="rect" fit="cover" placeholder="Drop your headshot here"></image-slot>
+      <div class="portrait-cta">
+        <a href="#contact"><span data-i18n="hero.cta1">Get in touch</span><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        <a href="#contact"><span data-i18n="hero.cta2">Download CV</span><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 4v12M6 11l6 6 6-6"/></svg></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= LOGOS ================= -->
+<section class="logos-strip">
+  <div class="wrap">
+    <div class="logos-label" data-i18n="logos.label">Taught at more than 20 institutions across France</div>
+  </div>
+  <div class="marquee">
+    <div class="marquee-track">
+      <img src="assets/logos-t/rennes.png" alt="Rennes School of Business" />
+      <img src="assets/logos-t/inseec.png" alt="INSEEC Paris" />
+      <img src="assets/logos-t/em-normandie.png" alt="EM Normandie Business School" />
+      <img src="assets/logos-t/paris-saclay.png" alt="Université Paris-Saclay" />
+      <img src="assets/logos-t/iae-lille.png" alt="IAE Lille" />
+      <img src="assets/logos-t/idrac.png" alt="IDRAC Business School" />
+      <img src="assets/logos-t/gema.png" alt="GEMA" />
+      <img src="assets/logos-t/ifag.png" alt="IFAG" />
+      <img src="assets/logos-t/esc-amiens.png" alt="ESC Amiens" />
+      <img src="assets/logos-t/amos.png" alt="AMOS" />
+      <img src="assets/logos-t/igensia.png" alt="IGENSIA" />
+      <img src="assets/logos-t/cmh.png" alt="CMH" />
+      <img src="assets/logos-t/eidm.png" alt="EIDM" />
+      <img src="assets/logos-t/iscom.png" alt="ISCOM" />
+      <img src="assets/logos-t/ilci.png" alt="ILCI" />
+      <img src="assets/logos-t/esg-luxe.png" alt="ESG Luxe" />
+      <img src="assets/logos-t/mbway.png" alt="MBway" />
+      <img src="assets/logos-t/ferrieres.png" alt="Ferrières" />
+      <img src="assets/logos-t/ace.png" alt="ACE Education" />
+      <img src="assets/logos-t/omnes.png" alt="OMNES Education" />
+      <img src="assets/logos-t/rennes.png" alt="" aria-hidden="true" />
+      <img src="assets/logos-t/inseec.png" alt="" aria-hidden="true" />
+      <img src="assets/logos-t/em-normandie.png" alt="" aria-hidden="true" />
+      <img src="assets/logos-t/paris-saclay.png" alt="" aria-hidden="true" />
+      <img src="assets/logos-t/iae-lille.png" alt="" aria-hidden="true" />
+      <img src="assets/logos-t/idrac.png" alt="" aria-hidden="true" />
+      <img src="assets/logos-t/gema.png" alt="" aria-hidden="true" />
+      <img src="assets/logos-t/ifag.png" alt="" aria-hidden="true" />
+      <img src="assets/logos-t/esc-amiens.png" alt="" aria-hidden="true" />
+      <img src="assets/logos-t/amos.png" alt="" aria-hidden="true" />
+      <img src="assets/logos-t/igensia.png" alt="" aria-hidden="true" />
+      <img src="assets/logos-t/cmh.png" alt="" aria-hidden="true" />
+      <img src="assets/logos-t/eidm.png" alt="" aria-hidden="true" />
+      <img src="assets/logos-t/iscom.png" alt="" aria-hidden="true" />
+      <img src="assets/logos-t/ilci.png" alt="" aria-hidden="true" />
+      <img src="assets/logos-t/esg-luxe.png" alt="" aria-hidden="true" />
+      <img src="assets/logos-t/mbway.png" alt="" aria-hidden="true" />
+      <img src="assets/logos-t/ferrieres.png" alt="" aria-hidden="true" />
+      <img src="assets/logos-t/ace.png" alt="" aria-hidden="true" />
+      <img src="assets/logos-t/omnes.png" alt="" aria-hidden="true" />
+    </div>
+  </div>
+</section>
+
+<!-- ================= PULL QUOTE (reviews highlight) ================= -->
+<section class="quote-band reveal">
+  <div class="wrap">
+    <span class="mark">&ldquo;</span>
+    <blockquote data-i18n="quote.text">&ldquo;The course was amazing and really interesting. It was great to learn things that will help us in the future for our <em>professional life</em>. It was a pleasure to attend your class.&rdquo;</blockquote>
+    <cite data-i18n="quote.cite">— Student, GEMA Business School</cite>
+    <div class="voices-link"><a class="btn-link" href="voices.html"><span data-i18n="quote.link">Read all student voices</span> →</a></div>
+  </div>
+</section>
+
+<!-- ================= FEATURED ================= -->
+<section class="section wrap">
+  <div class="sec-title featured-head reveal">
+    <div class="t" data-i18n="featured.title">Featured Curriculum &amp; Student Feedback</div>
+    <div class="rule"></div>
+  </div>
+  <div class="cards3 reveal">
+    <article class="fcard">
+      <div class="fcard-logos"><img src="assets/logos-t/iae-lille.png" alt="IAE Lille" /><img src="assets/logos-t/paris-saclay.png" alt="Paris-Saclay" /></div>
+      <h3 data-i18n="fcard1.title">IT &amp; Database Management</h3>
+      <p data-i18n="fcard1.text">“I really appreciated the structured approach you took in breaking down the concepts, making them both accessible and practical. The hands-on exercises were especially helpful — I feel much more confident applying Excel in real-world scenarios.”</p>
+    </article>
+    <article class="fcard">
+      <div class="fcard-logos"><img src="assets/logos-t/rennes.png" alt="Rennes" /><img src="assets/logos-t/cmh.png" alt="CMH" /></div>
+      <h3 data-i18n="fcard2.title">Organisational Behaviour</h3>
+      <p data-i18n="fcard2.text">“She is open to hearing about us, from us, and the course is open to debate. She genuinely tries to understand how and why we think a certain way. Her dynamism shows in how easily she moves between theory and practical games.”</p>
+    </article>
+    <article class="fcard">
+      <div class="fcard-logos"><img src="assets/logos-t/eidm.png" alt="EIDM" /><img src="assets/logos-t/amos.png" alt="AMOS" /></div>
+      <h3 data-i18n="fcard3.title">Digital &amp; Project Management</h3>
+      <p data-i18n="fcard3.text">“You're very helpful and supportive, and your teaching method works very well. Thanks to the course I came to know much more about digital marketing and the strategies behind it.”</p>
+    </article>
+  </div>
+</section>
+
+<!-- ================= CONTACT ================= -->
+<section class="contact" id="contact">
+  <div class="wrap contact-grid">
+    <div class="reveal">
+      <h2 data-i18n="contact.title">Let's discuss the<br /><em>future of learning.</em></h2>
+      <div class="contact-socials">
+        <a href="https://www.linkedin.com/in/parv-kaur-dtn-education-a40706145/" target="_blank" rel="noopener">LinkedIn ↗</a>
+        <a href="mailto:parvk1398@gmail.com" data-i18n="contact.email">Email ↗</a>
+        <a href="#" data-calendly><span data-i18n="contact.calendly">Schedule a call</span> ↗</a>
+      </div>
+    </div>
+    <form class="form reveal" data-contact>
+      <div class="field"><label data-i18n="form.name">Name</label><input type="text" required data-i18n-ph="form.name.ph" placeholder="Your name" /></div>
+      <div class="field"><label data-i18n="form.email">Email address</label><input type="email" required data-i18n-ph="form.email.ph" placeholder="you@institution.com" /></div>
+      <div class="field"><label data-i18n="form.msg">Message</label><textarea required data-i18n-ph="form.msg.ph" placeholder="How can I help your programme?"></textarea></div>
+      <button class="btn btn-primary" type="submit" style="align-self:flex-start"><span data-i18n="form.send">Send message</span><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+    </form>
+  </div>
+  <div class="footer-bar">
+    <div class="footer-bar-inner">
+      <div class="footer-bar-top">
+        <div>
+          <div class="brand"><b>PK</b> <span>|</span> Parv Kaur</div>
+          <div class="footer-copy">© 2026 Parv Kaur. All rights reserved.</div>
+        </div>
+      </div>
+      <div class="footer-legal">
+        <p data-i18n="footer.gdpr">In accordance with the GDPR and the French Loi Informatique et Libertés of 6 January 1978 (as amended), you have the right to access, rectify, port and erase any personal data you provide via this site, and to restrict or object to its processing. To exercise these rights or for any privacy enquiry, contact <a href="mailto:parvk1398@gmail.com">parvk1398@gmail.com</a>. No data submitted through the contact form is shared with third parties. This site does not use tracking cookies.</p>
+        <p class="footer-legal-links"><a href="#" data-i18n="footer.mentions">Legal notice</a> · <a href="#" data-i18n="footer.privacy">Privacy policy</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= OPTIONS SWITCHER ================= -->
+<div class="options" data-options>
+  <button class="options-toggle" data-options-toggle><span class="dot"></span>Layout options</button>
+  <div class="options-panel">
+    <h4>Hero layout</h4>
+    <div class="opt-row">
+      <button data-opt="hero" data-val="split">Split</button>
+      <button data-opt="hero" data-val="editorial">Editorial</button>
+    </div>
+    <h4>Nav style</h4>
+    <div class="opt-row">
+      <button data-opt="nav" data-val="center">Centered</button>
+      <button data-opt="nav" data-val="left">Left-aligned</button>
+    </div>
+    <p class="options-note">Compare options, then tell me which you prefer — I'll lock it in and remove this panel.</p>
+  </div>
+</div>
+
+<script src="assets/image-slot.js"></script>
+<script>
+window.I18N_FR = {
+  "nav.home":"Accueil","nav.about":"À propos","nav.teaching":"Enseignement","nav.voices":"Témoignages","nav.experience":"Parcours","nav.cta":"Me contacter",
+  "footer.gdpr":"Conformément au Règlement Général sur la Protection des Données (RGPD) et à la loi Informatique et Libertés du 6 janvier 1978 modifiée, vous disposez d'un droit d'accès, de rectification, de portabilité et d'effacement de vos données personnelles communiquées via ce site, ainsi que d'un droit à la limitation et d'opposition au traitement. Pour exercer ces droits ou pour toute question relative à la confidentialité, contactez <a href='mailto:parvk1398@gmail.com'>parvk1398@gmail.com</a>. Aucune donnée transmise via le formulaire de contact n'est partagée avec des tiers. Ce site n'utilise pas de cookies de suivi.","footer.mentions":"Mentions légales","footer.privacy":"Politique de confidentialité","contact.calendly":"Réserver un appel",
+  "hero.role":"Consultante en enseignement supérieur",
+  "hero.title":"Relier les <em>données, la stratégie</em> et la salle de classe dans les écoles de commerce françaises.",
+  "hero.lead":"Enseignante en marketing et management depuis 2022 — BI, marketing digital et comportement organisationnel, des niveaux licence et master au MBA.",
+  "hero.cta1":"Me contacter","hero.cta2":"Télécharger le CV",
+  "stat.years":"Ans d'enseignement","stat.inst":"Établissements","stat.curr":"Programmes","stat.theses":"Mémoires encadrés",
+  "hero.chip":"Cours dispensés en anglais &amp; français",
+  "logos.label":"Enseigne dans plus de 20 établissements en France",
+  "quote.text":"&ldquo;Le cours était passionnant. C'était formidable d'apprendre des choses qui nous serviront pour notre <em>vie professionnelle</em>. Un vrai plaisir d'assister à votre classe.&rdquo;",
+  "quote.cite":"— Étudiant, GEMA Business School","quote.link":"Lire tous les témoignages",
+  "featured.title":"Programme en Vedette et Feedback Étudiant",
+  "fcard1.title":"Informatique &amp; gestion de bases de données","fcard1.text":"« J'ai beaucoup apprécié l'approche structurée pour décomposer les concepts, à la fois accessibles et concrets. Les exercices pratiques ont été très utiles — je suis bien plus à l'aise pour utiliser Excel dans des cas réels. »",
+  "fcard2.title":"Comportement organisationnel","fcard2.text":"« Elle est à l'écoute de nous, vraiment, et le cours est ouvert au débat. Elle cherche sincèrement à comprendre comment et pourquoi nous pensons ainsi. Son dynamisme se voit dans sa facilité à passer de la théorie aux jeux pratiques. »",
+  "fcard3.title":"Marketing digital &amp; gestion de projet","fcard3.text":"« Vous êtes très disponible et bienveillante, et votre méthode d'enseignement fonctionne très bien. Grâce au cours, j'ai découvert bien plus sur le marketing digital et ses stratégies. »",
+  "contact.title":"Parlons de<br /><em>l'avenir de l'apprentissage.</em>","contact.email":"E-mail ↗",
+  "form.name":"Nom","form.email":"Adresse e-mail","form.msg":"Message","form.send":"Envoyer le message",
+  "form.name.ph":"Votre nom","form.email.ph":"vous@etablissement.com","form.msg.ph":"Comment puis-je aider votre programme ?"
+};
+</script>
+<script src="js/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,49 @@
+/* Shared styles for the legal pages (legal-notice, privacy-policy). */
+
+.legalHead {
+  border-bottom: 1px solid var(--hairline);
+  padding-bottom: 30px;
+  margin-bottom: clamp(36px, 5vw, 56px);
+}
+.legalHead :global(.display) {
+  font-size: clamp(36px, 5vw, 60px);
+}
+.updated {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin-top: 18px;
+}
+
+.legalBody {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(28px, 4vw, 40px);
+  max-width: 760px;
+}
+.section h2 {
+  font-family: var(--serif);
+  font-size: clamp(20px, 2.4vw, 26px);
+  font-weight: 500;
+  color: var(--ink-strong);
+  margin-bottom: 14px;
+}
+.section p {
+  font-size: 15.5px;
+  line-height: 1.7;
+  color: var(--ink-soft);
+  margin-bottom: 12px;
+}
+.section p:last-child {
+  margin-bottom: 0;
+}
+.section a {
+  color: var(--accent-deep);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.section a:hover {
+  color: var(--ink-strong);
+}

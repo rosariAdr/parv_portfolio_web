@@ -1,0 +1,136 @@
+/* Experience — ported from experience.html's <style>.
+   exp-period uses --accent-deep (was --accent) for WCAG AA on small text.
+   .at is injected via rich() i18n strings, so it's referenced with :global(). */
+
+.expTop {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+  border-bottom: 1px solid var(--hairline);
+  padding-bottom: 30px;
+}
+.expTop h1 {
+  font-size: clamp(44px, 7vw, 84px);
+  font-weight: 300;
+}
+
+.expItem {
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  gap: clamp(24px, 4vw, 56px);
+  padding: clamp(44px, 6vw, 64px) 0;
+  border-bottom: 1px solid var(--hairline);
+}
+.expItem:last-child {
+  border-bottom: 0;
+}
+.expWhen {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.expYear {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 30px;
+  color: var(--ink-strong);
+  line-height: 1;
+}
+.expPeriod {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent-deep);
+}
+.expLogo {
+  height: 60px;
+  width: auto;
+  max-width: 150px;
+  object-fit: contain;
+  margin-top: 6px;
+}
+.expLogo.expLogoSeva {
+  height: 180px;
+  max-width: none;
+} /* SEVA 3× */
+.expLogo.expLogoAviv {
+  height: 90px;
+  max-width: none;
+} /* AVIV 1.5× */
+.expLogosRow {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin: 2px 0 24px;
+}
+.expLogosRow img {
+  height: 60px;
+  width: auto;
+  max-width: 130px;
+  object-fit: contain;
+}
+
+.expRole {
+  font-family: var(--serif);
+  font-size: clamp(24px, 2.8vw, 32px);
+  font-weight: 400;
+  color: var(--ink-strong);
+  line-height: 1.2;
+  margin-bottom: 4px;
+}
+.expRole :global(.at) {
+  font-style: italic;
+  color: var(--ink-faint);
+}
+.expPlace {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin-bottom: 22px;
+}
+.expList {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  max-width: 64ch;
+}
+.expList li {
+  position: relative;
+  padding-left: 22px;
+  font-size: 15.5px;
+  line-height: 1.6;
+  color: var(--ink-soft);
+}
+.expList li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 11px;
+  width: 5px;
+  height: 5px;
+  background: var(--accent);
+  border-radius: 50%;
+}
+.expList li strong {
+  color: var(--ink-strong);
+  font-weight: 600;
+}
+
+@media (max-width: 760px) {
+  .expItem {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+  .expWhen {
+    flex-direction: row;
+    align-items: center;
+    gap: 18px;
+  }
+}

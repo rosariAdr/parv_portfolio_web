@@ -1,0 +1,218 @@
+/* Teaching — ported from teaching.html's <style>. */
+
+.teachHead {
+  text-align: center;
+  max-width: 46ch;
+  margin: 0 auto;
+}
+.teachHead :global(.display) {
+  margin-bottom: 18px;
+}
+.teachHead :global(.lead) {
+  margin: 0 auto;
+  color: var(--ink-soft);
+}
+
+/* filter bar */
+.filters {
+  margin-top: clamp(40px, 6vw, 64px);
+  border-top: 1px solid var(--hairline);
+  border-bottom: 1px solid var(--hairline);
+  padding-block: 22px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 26px 40px;
+  align-items: center;
+  justify-content: space-between;
+}
+.fgroup {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.fgroupInst {
+  flex-basis: 100%;
+  align-items: flex-start;
+  padding-top: 18px;
+  border-top: 1px solid var(--hairline-soft);
+}
+.fgroupInst .fgroupLabel {
+  padding-top: 9px;
+}
+.fgroupLabel {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+.fpills {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.fpill {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border: 1px solid var(--hairline);
+  padding: 8px 14px;
+  color: var(--ink-soft);
+  transition: 0.18s;
+}
+.fpill:hover {
+  border-color: var(--ink-strong);
+  color: var(--ink-strong);
+}
+.fpill.on {
+  background: var(--ink-strong);
+  border-color: var(--ink-strong);
+  color: #fff;
+}
+
+.count {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin-top: 26px;
+  min-height: 1.2em;
+}
+.count b {
+  color: var(--ink-strong);
+  font-weight: 600;
+}
+
+/* grid */
+.courseGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  border-top: 1px solid var(--hairline);
+  margin-top: 14px;
+}
+.ccard {
+  padding: 28px clamp(18px, 2vw, 28px) 26px;
+  border-right: 1px solid var(--hairline);
+  border-bottom: 1px solid var(--hairline);
+  display: flex;
+  flex-direction: column;
+  min-height: 188px;
+  background: var(--bg);
+  transition: background 0.2s;
+}
+.ccard:nth-child(3n) {
+  border-right: 0;
+}
+.ccard:hover {
+  background: var(--surface);
+}
+.ccard .disc {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin-bottom: 20px;
+}
+.ccard .disc .dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex: none;
+}
+.ccard h3 {
+  font-family: var(--serif);
+  font-size: 19px;
+  font-weight: 500;
+  line-height: 1.25;
+  color: var(--ink-strong);
+  margin-bottom: auto;
+}
+.ccard .meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 22px;
+}
+.ccard .meta img {
+  height: 30px;
+  width: auto;
+  max-width: 112px;
+  object-fit: contain;
+}
+.ccard .lvl {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #fff;
+  background: var(--ink-strong);
+  padding: 4px 8px;
+  flex: none;
+}
+.empty {
+  padding: 64px 0;
+  text-align: center;
+  color: var(--ink-faint);
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 20px;
+  grid-column: 1 / -1;
+}
+
+/* pagination */
+.pager {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin-top: 52px;
+  flex-wrap: wrap;
+}
+.pgbtn {
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border: 1px solid var(--hairline);
+  background: transparent;
+  color: var(--ink-soft);
+  padding: 10px 14px;
+  min-width: 42px;
+  line-height: 1;
+  transition: 0.18s;
+}
+.pgbtn:hover:not(:disabled) {
+  border-color: var(--ink-strong);
+  color: var(--ink-strong);
+}
+.pgbtn.active {
+  background: var(--accent-deep);
+  border-color: var(--accent-deep);
+  color: #fff;
+}
+.pgbtn:disabled {
+  opacity: 0.32;
+  cursor: not-allowed;
+}
+
+@media (max-width: 860px) {
+  .courseGrid {
+    grid-template-columns: 1fr;
+  }
+  .ccard {
+    border-right: 0;
+  }
+  .filters {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

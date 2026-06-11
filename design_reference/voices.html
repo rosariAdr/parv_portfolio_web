@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Student Voices — Parv Kaur</title>
+<meta name="description" content="Feedback from students across French business schools — on data analytics, organisational behaviour and digital marketing." />
+<link rel="stylesheet" href="css/style.css" />
+<style>
+.voices-head{text-align:center;max-width:42ch;margin:0 auto;}
+.voices-head .display{margin-bottom:18px;}
+.voices-head .lead{margin:0 auto;}
+
+.vfilters{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:clamp(36px,5vw,52px);}
+.vpill{
+  font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+  border:1px solid var(--hairline);padding:9px 16px;color:var(--ink-soft);transition:.18s;
+}
+.vpill:hover{border-color:var(--ink-strong);color:var(--ink-strong);}
+.vpill.on{background:var(--ink-strong);border-color:var(--ink-strong);color:#fff;}
+
+.vmasonry{columns:3;column-gap:24px;margin-top:clamp(40px,6vw,60px);}
+.vcard{
+  break-inside:avoid;border:1px solid var(--hairline);padding:30px 28px;margin-bottom:24px;background:var(--surface);
+  display:inline-block;width:100%;
+}
+.vcard blockquote{font-family:var(--serif);font-style:italic;font-size:16px;line-height:1.6;color:var(--ink);margin:0 0 22px;}
+.vcard .by{display:flex;align-items:center;gap:12px;border-top:1px solid var(--hairline);padding-top:16px;}
+.vcard .by img{height:42px;width:auto;max-width:120px;object-fit:contain;}
+.vcard .by .name{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);}
+.vtag{display:inline-block;white-space:nowrap;font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:#fff;padding:3px 7px;margin-bottom:18px;}
+
+@media(max-width:1024px){.vmasonry{columns:2;}}
+@media(max-width:640px){.vmasonry{columns:1;}}
+</style>
+</head>
+<body data-page="voices">
+
+<header class="nav">
+  <div class="nav-inner">
+    <a class="brand" href="index.html"><b>PK</b> <span>|</span> Parv Kaur</a>
+    <nav class="nav-links">
+      <a href="index.html" data-nav="home" data-i18n="nav.home">Home</a>
+      <a href="experience.html" data-nav="experience" data-i18n="nav.experience">Experience</a>
+      <a href="teaching.html" data-nav="teaching" data-i18n="nav.teaching">Teaching</a>
+      <a href="voices.html" data-nav="voices" data-i18n="nav.voices">Student Voices</a>
+      <a href="about.html" data-nav="about" data-i18n="nav.about">About</a>
+      <a class="nav-extra" href="https://www.linkedin.com/in/parv-kaur-dtn-education-a40706145/" target="_blank" rel="noopener">LinkedIn ↗</a>
+      <a class="nav-extra" href="assets/Parv_KAUR_Resume.pdf" download>Download CV ↓</a>
+    </nav>
+    <div class="nav-right">
+      <div class="nav-icons">
+        <a class="nav-icon" href="https://www.linkedin.com/in/parv-kaur-dtn-education-a40706145/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.2 8h4.6v14H.2V8zm7.2 0h4.4v1.92h.06c.61-1.16 2.1-2.38 4.32-2.38 4.62 0 5.47 3.04 5.47 7v7.46h-4.6v-6.61c0-1.58-.03-3.61-2.2-3.61-2.2 0-2.54 1.72-2.54 3.5V22H7.4V8z"/></svg></a>
+        <a class="nav-icon" href="assets/Parv_KAUR_Resume.pdf" download aria-label="Download CV"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 4v12M6 11l6 6 6-6"/></svg></a>
+      </div>
+      <div class="lang" role="group" aria-label="Language">
+        <button data-lang="en">EN</button><span class="sep">/</span><button data-lang="fr">FR</button>
+      </div>
+      <a class="btn btn-primary" href="index.html#contact"><span class="nav-cta-text" data-i18n="nav.cta">Get in touch</span><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <button class="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap page-head section">
+  <div class="voices-head reveal">
+    <div class="overline" style="margin-bottom:22px"><span data-i18n="voices.kicker">Student Feedback</span></div>
+    <h1 class="display" data-i18n="voices.title">Student <em>Voices</em></h1>
+    <p class="lead" data-i18n="voices.lead">Unedited feedback from students across institutions and disciplines.</p>
+  </div>
+
+  <div class="vfilters reveal" id="vfilters">
+    <button class="vpill on" data-cat="all" data-i18n="teach.all">All</button>
+    <button class="vpill" data-cat="bi">BI &amp; Data Analytics</button>
+    <button class="vpill" data-cat="ob" data-i18n="voices.ob">OB &amp; Talent Management</button>
+    <button class="vpill" data-cat="mkt" data-i18n="voices.mkt">Digital Marketing &amp; Brand</button>
+  </div>
+
+  <div class="vmasonry" id="vgrid"></div>
+</main>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="wrap contact-grid">
+    <div class="reveal">
+      <h2 data-i18n="contact.title">Let's discuss the<br /><em>future of learning.</em></h2>
+      <div class="contact-socials">
+        <a href="https://www.linkedin.com/in/parv-kaur-dtn-education-a40706145/" target="_blank" rel="noopener">LinkedIn ↗</a>
+        <a href="mailto:parvk1398@gmail.com" data-i18n="contact.email">Email ↗</a>
+        <a href="#" data-calendly><span data-i18n="contact.calendly">Schedule a call</span> ↗</a>
+      </div>
+    </div>
+    <form class="form reveal" data-contact>
+      <div class="field"><label data-i18n="form.name">Name</label><input type="text" required data-i18n-ph="form.name.ph" placeholder="Your name" /></div>
+      <div class="field"><label data-i18n="form.email">Email address</label><input type="email" required data-i18n-ph="form.email.ph" placeholder="you@institution.com" /></div>
+      <div class="field"><label data-i18n="form.msg">Message</label><textarea required data-i18n-ph="form.msg.ph" placeholder="How can I help your programme?"></textarea></div>
+      <button class="btn btn-primary" type="submit" style="align-self:flex-start"><span data-i18n="form.send">Send message</span><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+    </form>
+  </div>
+  <div class="footer-bar">
+    <div class="footer-bar-inner">
+      <div class="footer-bar-top">
+        <div>
+          <div class="brand"><b>PK</b> <span>|</span> Parv Kaur</div>
+          <div class="footer-copy">© 2026 Parv Kaur. All rights reserved.</div>
+        </div>
+      </div>
+      <div class="footer-legal">
+        <p data-i18n="footer.gdpr">In accordance with the GDPR and the French Loi Informatique et Libertés of 6 January 1978 (as amended), you have the right to access, rectify, port and erase any personal data you provide via this site, and to restrict or object to its processing. To exercise these rights or for any privacy enquiry, contact <a href="mailto:parvk1398@gmail.com">parvk1398@gmail.com</a>. No data submitted through the contact form is shared with third parties. This site does not use tracking cookies.</p>
+        <p class="footer-legal-links"><a href="#" data-i18n="footer.mentions">Legal notice</a> · <a href="#" data-i18n="footer.privacy">Privacy policy</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+window.I18N_FR = {
+  "nav.home":"Accueil","nav.about":"À propos","nav.teaching":"Enseignement","nav.voices":"Témoignages","nav.experience":"Parcours","nav.cta":"Me contacter",
+  "footer.gdpr":"Conformément au Règlement Général sur la Protection des Données (RGPD) et à la loi Informatique et Libertés du 6 janvier 1978 modifiée, vous disposez d'un droit d'accès, de rectification, de portabilité et d'effacement de vos données personnelles communiquées via ce site, ainsi que d'un droit à la limitation et d'opposition au traitement. Pour exercer ces droits ou pour toute question relative à la confidentialité, contactez <a href='mailto:parvk1398@gmail.com'>parvk1398@gmail.com</a>. Aucune donnée transmise via le formulaire de contact n'est partagée avec des tiers. Ce site n'utilise pas de cookies de suivi.","footer.mentions":"Mentions légales","footer.privacy":"Politique de confidentialité","contact.calendly":"Réserver un appel",
+  "voices.kicker":"Retours d'étudiants","voices.title":"Paroles d'<em>étudiants</em>","voices.lead":"Retours bruts d'étudiants de divers établissements et disciplines.",
+  "teach.all":"Tous","voices.ob":"Comportement &amp; talents","voices.mkt":"Marketing digital &amp; marque",
+  "contact.title":"Parlons de<br /><em>l'avenir de l'apprentissage.</em>","contact.email":"E-mail ↗",
+  "form.name":"Nom","form.email":"Adresse e-mail","form.msg":"Message","form.send":"Envoyer le message",
+  "form.name.ph":"Votre nom","form.email.ph":"vous@etablissement.com","form.msg.ph":"Comment puis-je aider votre programme ?"
+};
+
+var CAT = { bi:{l:"BI & Data", c:"#3a6ea5"}, ob:{l:"OB & Talent", c:"#3f7d56"}, mkt:{l:"Marketing & Brand", c:"#b0792a"} };
+var INST = { idrac:"IDRAC", "iae-lille":"IAE Lille", gema:"GEMA", "esc-amiens":"ESC Amiens", "paris-saclay":"Université Paris-Saclay", rennes:"Rennes School of Business", cmh:"CMH", ilci:"ILCI", iscom:"ISCOM", amos:"AMOS" };
+
+var REVIEWS = [
+  {cat:"bi", inst:"idrac", who:"Student, IDRAC Business School", q:"This is the first time I enjoy learning and doing Advanced Excel. You took your time explaining everything from A to Z, and re-explained whenever we needed. Thank you."},
+  {cat:"bi", inst:"iae-lille", who:"Student, IAE Lille", q:"Every class was very good — the teacher was very understanding and explained things to each and every one of us individually."},
+  {cat:"bi", inst:"gema", who:"Student, GEMA", q:"The course was amazing and really interesting. It was great to learn things that will help us in the future for our professional life. It was a pleasure to attend your class — I wish you all the best!"},
+  {cat:"bi", inst:"esc-amiens", who:"Student, ESC Amiens", q:"I really enjoyed the course. It wasn't the easiest one, but you always took the time to answer our questions and provide thorough explanations."},
+  {cat:"bi", inst:"paris-saclay", who:"Student, Université Paris-Saclay", q:"Thank you for the Excel and Tableau course. I really appreciated the structured approach you took in breaking down the concepts, making them both accessible and practical. The hands-on exercises were especially helpful, and I feel much more confident applying Excel in real-world scenarios."},
+  {cat:"ob", inst:"rennes", who:"Student, Rennes School of Business", q:"Ms. Kaur is very kind and clear in her comments. Her feedback is relevant and she is very patient with the students."},
+  {cat:"ob", inst:"cmh", who:"Student, CMH", q:"Openness and diversity — she handles every opinion and question really well. I also appreciated how energetic and animated the professor was."},
+  {cat:"ob", inst:"rennes", who:"Student, Rennes School of Business", q:"The teacher was very engaged in discussions with us. She's very approachable, and that made it easier to engage with the class."},
+  {cat:"ob", inst:"ilci", who:"Student, ILCI Business School", q:"The teacher is great, motivating, and knows her subject very well. She managed to capture my attention even when I didn't find the topic particularly interesting."},
+  {cat:"ob", inst:"rennes", who:"Student, Rennes School of Business", q:"Her excellent command of English and her use of games and other external resources served brilliantly as instructional materials."},
+  {cat:"mkt", inst:"iscom", who:"Student, ISCOM", q:"La prof est gentille, elle a une vraie pédagogie de travail. J'ai appris beaucoup de choses."},
+  {cat:"mkt", inst:"amos", who:"Student, AMOS", q:"You made me love marketing more! Your class is so fun — I can never get bored, since you always find ways to entertain while teaching. Thank you."},
+  {cat:"mkt", inst:"cmh", who:"Student, CMH", q:"Le cours était intéressant ! Et vous êtes très gentille et aimable. Merci :)"},
+  {cat:"mkt", inst:"gema", who:"Student, GEMA", q:"You are doing very well, keep going. I was very glad to have your point of view on these different subjects — I really learned something and it was very interesting!"},
+  {cat:"mkt", inst:"iscom", who:"Student, ISCOM", q:"It was amazing — I learned a lot from the course. Also, thank you for the advice on student life in France."}
+];
+
+(function(){
+  var grid=document.getElementById('vgrid');
+  var cur="all";
+  function render(){
+    grid.innerHTML='';
+    REVIEWS.filter(function(r){return cur==='all'||r.cat===cur;}).forEach(function(r){
+      var c=CAT[r.cat];
+      var logo = INST[r.inst] ? '<img src="assets/logos-t/'+r.inst+'.png" alt="'+INST[r.inst]+'"/>' : '';
+      var el=document.createElement('div'); el.className='vcard';
+      el.innerHTML='<span class="vtag" style="background:'+c.c+'">'+c.l+'</span>'+
+        '<blockquote>'+r.q+'</blockquote>'+
+        '<div class="by">'+logo+'<span class="name">— '+r.who+'</span></div>';
+      grid.appendChild(el);
+    });
+  }
+  document.querySelectorAll('#vfilters .vpill').forEach(function(b){
+    b.addEventListener('click', function(){
+      document.querySelectorAll('#vfilters .vpill').forEach(function(x){x.classList.remove('on');});
+      b.classList.add('on'); cur=b.getAttribute('data-cat'); render();
+    });
+  });
+  render();
+})();
+</script>
+<script src="js/site.js"></script>
+</body>
+</html>
