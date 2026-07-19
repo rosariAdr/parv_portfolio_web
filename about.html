@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>About — Parv Kaur</title>
+<meta name="description" content="About Parv Kaur — from market research to the higher-education classroom. Education, languages and certifications." />
+<link rel="stylesheet" href="css/style.css" />
+<style>
+.about-intro{display:grid;grid-template-columns:1fr;gap:0;}
+.about-bio{max-width:62ch;font-size:18px;line-height:1.7;color:var(--ink-soft);margin-top:30px;}
+.about-bio strong{color:var(--ink-strong);font-weight:600;}
+.about-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(40px,6vw,88px);margin-top:clamp(56px,8vw,96px);}
+.block-title{font-family:var(--serif);font-size:clamp(26px,3vw,34px);font-weight:400;color:var(--ink-strong);margin-bottom:8px;}
+.block-rule{height:1px;background:var(--hairline);margin-bottom:36px;}
+
+/* timeline */
+.tl{display:flex;flex-direction:column;}
+.tl-item{position:relative;padding:0 0 38px 30px;border-left:1px solid var(--hairline);}
+.tl-item:last-child{padding-bottom:0;}
+.tl-item::before{content:"";position:absolute;left:-4.5px;top:6px;width:8px;height:8px;border-radius:50%;background:var(--accent);}
+.tl-year{font-family:var(--mono);font-size:12px;letter-spacing:.14em;color:var(--accent-deep);margin-bottom:8px;}
+.tl-school{font-family:var(--serif);font-size:22px;color:var(--ink-strong);margin-bottom:6px;}
+.tl-degree{font-size:14.5px;color:var(--ink-soft);}
+
+/* languages card */
+.lang-card{background:var(--surface-tint);padding:32px 34px;margin-bottom:48px;}
+.lang-card h4{font-family:var(--serif);font-size:22px;font-weight:500;color:var(--ink-strong);margin-bottom:14px;}
+.lang-card p{font-size:15px;color:var(--ink-soft);line-height:1.6;}
+
+/* certs */
+.certs{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.cert{
+  border:1px solid var(--hairline);padding:24px 18px;text-align:center;
+  font-family:var(--serif);font-size:18px;color:var(--ink-strong);display:flex;align-items:center;justify-content:center;min-height:84px;
+}
+.cert.wide{grid-column:1/-1;}
+
+.cv-row{display:flex;justify-content:center;margin-top:clamp(64px,9vw,104px);}
+
+.cv-preview-section{margin-top:clamp(56px,8vw,96px);display:flex;flex-direction:column;align-items:flex-start;}
+.cv-download-btn{margin-bottom:24px;}
+/* CV button — matches the Profile portrait Download CV (black left-to-right fill) */
+.cv-dl{display:inline-flex;align-items:center;gap:14px;font-family:var(--mono);font-size:12.5px;letter-spacing:.1em;text-transform:uppercase;padding:18px 22px;background:var(--surface);color:var(--ink-strong);border:1px solid var(--ink-strong);position:relative;overflow:hidden;isolation:isolate;}
+.cv-dl::before{content:"";position:absolute;inset:0;background:var(--ink-strong);transform:scaleX(0);transform-origin:left center;transition:transform .4s cubic-bezier(.7,0,.3,1);z-index:-1;}
+.cv-dl:hover{color:#fff;}
+.cv-dl:hover::before{transform:scaleX(1);}
+@media(prefers-reduced-motion:reduce){.cv-dl::before{transition:none;}}
+.cv-preview-frame{width:100%;border:1px solid var(--hairline);background:var(--surface-tint);max-height:900px;overflow:auto;}
+.cv-preview-frame .cv-page{display:block;width:100%;height:auto;border-bottom:1px solid var(--hairline);}
+.cv-preview-frame .cv-page:last-child{border-bottom:0;}
+.cv-fallback{padding:40px;text-align:center;font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;}
+.cv-fallback a{color:var(--accent-deep);}
+
+@media(max-width:860px){.about-grid{grid-template-columns:1fr;}.cv-preview-frame{max-height:600px;}}
+</style>
+</head>
+<body data-page="about">
+
+<header class="nav">
+  <div class="nav-inner">
+    <a class="brand" href="index.html"><img src="assets/parv-logo.png" alt="Parv Kaur" /></a>
+    <nav class="nav-links">
+      <a href="index.html" data-nav="home" data-i18n="nav.home">Profile</a>
+      <a href="experience.html" data-nav="experience" data-i18n="nav.experience">Experience</a>
+      <a href="teaching.html" data-nav="teaching" data-i18n="nav.teaching">In the Classroom</a>
+      <a href="voices.html" data-nav="voices" data-i18n="nav.voices">From the Classroom</a>
+      <a href="about.html" data-nav="about" data-i18n="nav.about">The Story</a>
+      <a class="nav-extra" href="https://www.linkedin.com/in/parv-kaur-dtn-education-a40706145/" target="_blank" rel="noopener">LinkedIn ↗</a>
+      <a class="nav-extra" href="assets/Parv_KAUR_Resume.pdf" download>Download CV ↓</a>
+    </nav>
+    <div class="nav-right">
+      <div class="nav-icons">
+        <a class="nav-icon" href="https://www.linkedin.com/in/parv-kaur-dtn-education-a40706145/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.2 8h4.6v14H.2V8zm7.2 0h4.4v1.92h.06c.61-1.16 2.1-2.38 4.32-2.38 4.62 0 5.47 3.04 5.47 7v7.46h-4.6v-6.61c0-1.58-.03-3.61-2.2-3.61-2.2 0-2.54 1.72-2.54 3.5V22H7.4V8z"/></svg></a>
+        <a class="nav-icon" href="assets/Parv_KAUR_Resume.pdf" download aria-label="Download CV"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 4v12M6 11l6 6 6-6"/></svg></a>
+      </div>
+      <div class="lang" role="group" aria-label="Language">
+        <button data-lang="en">EN</button><span class="sep">/</span><button data-lang="fr">FR</button>
+      </div>
+      <a class="btn btn-primary" href="index.html#contact"><span class="nav-cta-text" data-i18n="nav.cta">Get in touch</span><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <button class="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap page-head section">
+  <div class="overline reveal"><span data-i18n="about.kicker">Biography</span></div>
+  <div class="about-intro reveal">
+    <h1 class="display" data-i18n="about.title">The classroom became the natural <em>next step.</em></h1>
+    <p class="about-bio" data-i18n="about.bio">My experience in market research at <strong>AVIV Group and Helvetia</strong> taught me to recognise patterns, ask better questions and work from evidence. Higher education gave me the opportunity to apply that thinking through teaching and mentorship, while co-founding <strong>SEVA</strong> extended that work beyond the classroom by supporting international students as they navigate education, careers and life in France.</p>
+  </div>
+
+  <div class="about-grid">
+    <section class="reveal">
+      <h2 class="block-title" data-i18n="about.edu">Education</h2>
+      <div class="block-rule"></div>
+      <div class="tl">
+        <div class="tl-item">
+          <div class="tl-year">2021</div>
+          <div class="tl-school">IAE-UGA Grenoble Alpes</div>
+          <div class="tl-degree" data-i18n="about.edu1">Master's in Research &amp; Data Intelligence</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-year">2020</div>
+          <div class="tl-school">IFAG · L'École de Management</div>
+          <div class="tl-degree" data-i18n="about.edu2">MBA in Entrepreneurship &amp; Management</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-year">2019</div>
+          <div class="tl-school" data-i18n="about.edu3school">University of Delhi</div>
+          <div class="tl-degree" data-i18n="about.edu3">Bachelor of Commerce + Diploma in French Language</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="reveal">
+      <h2 class="block-title" data-i18n="about.lang">Languages</h2>
+      <div class="block-rule"></div>
+      <div class="lang-card">
+        <h4 data-i18n="about.langcard.t">English &amp; French</h4>
+        <p data-i18n="about.langcard.p">Lectures, course materials and thesis supervision available in both languages.</p>
+      </div>
+      <h2 class="block-title" data-i18n="about.certs">Certifications</h2>
+      <div class="block-rule"></div>
+      <div class="certs">
+        <div class="cert">Google Analytics</div>
+        <div class="cert">Tableau</div>
+        <div class="cert wide" data-i18n="about.cert3">Business Analytics</div>
+      </div>
+    </section>
+  </div>
+
+  <section class="cv-preview-section reveal">
+    <h2 class="block-title">CV</h2>
+    <div class="block-rule"></div>
+    <a class="cv-dl cv-download-btn" href="assets/Parv_KAUR_CV_EN.pdf" data-cv download="Parv KAUR - CV (EN).pdf">
+      <span data-i18n="about.cv">Download complete CV</span>
+      <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 4v12M6 11l6 6 6-6"/></svg>
+    </a>
+    <div class="cv-preview-frame" id="cvPreview"></div>
+  </section>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@4.7.76/build/pdf.min.mjs" type="module"></script>
+<script type="module">
+  import * as pdfjsLib from 'https://cdn.jsdelivr.net/npm/pdfjs-dist@4.7.76/build/pdf.min.mjs';
+  pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@4.7.76/build/pdf.worker.min.mjs';
+  var host = document.getElementById('cvPreview');
+  var token = 0;
+  async function renderCV(url){
+    var my = ++token;
+    host.innerHTML = '';
+    try{
+      var pdf = await pdfjsLib.getDocument(url).promise;
+      if(my !== token) return;
+      for(var p=1; p<=pdf.numPages; p++){
+        var page = await pdf.getPage(p);
+        if(my !== token) return;
+        var scale = (host.clientWidth || 760) / page.getViewport({scale:1}).width;
+        var vp = page.getViewport({scale: Math.max(scale, 0.1) * (window.devicePixelRatio||1)});
+        var canvas = document.createElement('canvas');
+        canvas.className = 'cv-page';
+        canvas.width = vp.width; canvas.height = vp.height;
+        canvas.style.width = '100%'; canvas.style.height = 'auto';
+        host.appendChild(canvas);
+        await page.render({canvasContext: canvas.getContext('2d'), viewport: vp}).promise;
+        if(my !== token) return;
+      }
+    }catch(e){
+      host.innerHTML = '<div class="cv-fallback"><a href="'+url+'" target="_blank" rel="noopener">Open CV ↗</a></div>';
+    }
+  }
+  window.__renderCV = renderCV;
+  // initial + react to language toggle (site.js updates the download link's href)
+  function currentCV(){
+    var a = document.querySelector('a.cv-dl[data-cv]');
+    return a ? a.getAttribute('href') : 'assets/Parv_KAUR_CV_EN.pdf';
+  }
+  renderCV(currentCV());
+  document.querySelectorAll('.lang button').forEach(function(b){
+    b.addEventListener('click', function(){ setTimeout(function(){ renderCV(currentCV()); }, 0); });
+  });
+  var rz; window.addEventListener('resize', function(){ clearTimeout(rz); rz=setTimeout(function(){ renderCV(currentCV()); }, 200); });
+</script>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="wrap contact-grid">
+    <div class="reveal">
+      <h2 data-i18n="contact.title">Let's discuss the<br /><em>future of learning.</em></h2>
+      <div class="contact-socials">
+        <a class="cs" href="https://www.linkedin.com/in/parv-kaur-dtn-education-a40706145/" target="_blank" rel="noopener"><span class="cs-label">LinkedIn</span><span class="cs-arrow" aria-hidden="true">↗</span></a>
+        <a class="cs" href="mailto:parvk1398@gmail.com"><span class="cs-label" data-i18n="contact.email">Email</span><span class="cs-arrow" aria-hidden="true">↗</span></a>
+        <a class="cs" href="https://calendar.app.google/xvNf4ekBUhsXnGnc7" target="_blank" rel="noopener"><span class="cs-label" data-i18n="contact.calendly">Schedule a call</span><span class="cs-arrow" aria-hidden="true">↗</span></a>
+      </div>
+    </div>
+    <form class="form reveal" data-contact>
+      <div class="field"><label data-i18n="form.name">Name</label><input type="text" required data-i18n-ph="form.name.ph" placeholder="Your name" /></div>
+      <div class="field"><label data-i18n="form.email">Email address</label><input type="email" required data-i18n-ph="form.email.ph" placeholder="you@institution.com" /></div>
+      <div class="field"><label data-i18n="form.msg">Message</label><textarea required data-i18n-ph="form.msg.ph" placeholder="How can I help your programme?"></textarea></div>
+      <button class="btn btn-primary" type="submit" style="align-self:flex-start"><span data-i18n="form.send">Send message</span><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+    </form>
+  </div>
+  <div class="footer-bar">
+    <div class="footer-bar-inner">
+      <div class="footer-bar-top">
+        <div>
+          <div class="brand"><b>PK</b> <span>|</span> Parv Kaur</div>
+          <div class="footer-copy">© 2026 Parv Kaur. All rights reserved.</div>
+        </div>
+      </div>
+      <div class="footer-legal">
+        <p data-i18n="footer.gdpr">In accordance with the GDPR and the French Loi Informatique et Libertés of 6 January 1978 (as amended), you have the right to access, rectify, port and erase any personal data you provide via this site, and to restrict or object to its processing. To exercise these rights or for any privacy enquiry, contact <a href="mailto:parvk1398@gmail.com">parvk1398@gmail.com</a>. No data submitted through the contact form is shared with third parties. This site does not use tracking cookies.</p>
+        <p class="footer-legal-links"><a href="#" data-i18n="footer.mentions">Legal notice</a> · <a href="#" data-i18n="footer.privacy">Privacy policy</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+window.I18N_FR = {
+  "nav.home":"Profil","nav.about":"L'histoire","nav.teaching":"En classe","nav.voices":"Échos de la classe","nav.experience":"Parcours","nav.cta":"Me contacter",
+  "footer.gdpr":"Conformément au Règlement Général sur la Protection des Données (RGPD) et à la loi Informatique et Libertés du 6 janvier 1978 modifiée, vous disposez d'un droit d'accès, de rectification, de portabilité et d'effacement de vos données personnelles communiquées via ce site, ainsi que d'un droit à la limitation et d'opposition au traitement. Pour exercer ces droits ou pour toute question relative à la confidentialité, contactez <a href='mailto:parvk1398@gmail.com'>parvk1398@gmail.com</a>. Aucune donnée transmise via le formulaire de contact n'est partagée avec des tiers. Ce site n'utilise pas de cookies de suivi.","footer.mentions":"Mentions légales","footer.privacy":"Politique de confidentialité","contact.calendly":"Réserver un appel",
+  "about.kicker":"Biographie",
+  "about.title":"L'enseignement s'est imposé comme la <em>suite naturelle.</em>",
+  "about.bio":"Mon expérience en études de marché chez <strong>AVIV Group et Helvetia</strong> m'a appris à repérer les tendances, à poser de meilleures questions et à m'appuyer sur les faits. L'enseignement supérieur m'a donné l'occasion d'appliquer cette approche à travers l'enseignement et le mentorat, tandis que la cofondation de <strong>SEVA</strong> a prolongé ce travail au-delà de la salle de classe en accompagnant les étudiants internationaux dans leurs études, leur carrière et leur vie en France.",
+  "about.edu":"Formation","about.edu1":"Master en recherche &amp; intelligence des données","about.edu2":"MBA en entrepreneuriat &amp; management","about.edu3school":"Université de Delhi","about.edu3":"Licence de commerce + diplôme de langue française",
+  "about.lang":"Langues","about.langcard.t":"Anglais &amp; français","about.langcard.p":"Cours, supports pédagogiques et encadrement de mémoires disponibles dans les deux langues.",
+  "about.certs":"Certifications","about.cert3":"Business Analytics","about.cv":"Télécharger le CV complet",
+  "contact.title":"Parlons de<br /><em>l'avenir de l'apprentissage.</em>","contact.email":"E-mail",
+  "form.name":"Nom","form.email":"Adresse e-mail","form.msg":"Message","form.send":"Envoyer le message",
+  "form.name.ph":"Votre nom","form.email.ph":"vous@etablissement.com","form.msg.ph":"Comment puis-je aider votre programme ?"
+};
+</script>
+<script src="js/site.js"></script>
+</body>
+</html>

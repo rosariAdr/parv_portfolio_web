@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>In the Classroom — Parv Kaur</title>
+<meta name="description" content="Courses taught across French business schools, organised by institution — from undergraduate to MBA level." />
+<link rel="stylesheet" href="css/style.css" />
+<style>
+.teach-head{text-align:center;max-width:46ch;margin:0 auto;}
+.teach-head .display{margin-bottom:18px;}
+.teach-head .lead{margin:0 auto;color:var(--ink-soft);}
+
+/* ---------- filter bar (restored) ---------- */
+.filters{margin-top:clamp(36px,5vw,56px);border-top:1px solid var(--hairline);border-bottom:1px solid var(--hairline);padding-block:22px;display:flex;flex-wrap:wrap;gap:22px 46px;align-items:center;}
+.fgroup{display:flex;align-items:center;gap:14px;flex-wrap:wrap;}
+.fgroup-label{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-faint);}
+.fpills{display:flex;gap:8px;flex-wrap:wrap;}
+.fpill{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;border:1px solid var(--hairline);background:transparent;padding:8px 14px;color:var(--ink-soft);cursor:pointer;transition:.18s;}
+.fpill:hover{border-color:var(--ink-strong);color:var(--ink-strong);}
+.fpill.on{background:var(--ink-strong);border-color:var(--ink-strong);color:#fff;}
+.fpill:focus-visible{outline:2px solid var(--accent-deep);outline-offset:2px;}
+
+.tempty{padding:72px 0;text-align:center;color:var(--ink-faint);font-family:var(--serif);font-style:italic;font-size:20px;}
+
+/* ---------- school rows ---------- */
+.tschools{margin-top:clamp(30px,4vw,48px);display:flex;flex-direction:column;}
+.tschool{padding-block:clamp(38px,5vw,58px);border-top:1px solid var(--hairline);}
+.tschool:first-child{border-top:0;}
+
+.tschool-head{display:flex;align-items:center;gap:22px;margin-bottom:clamp(26px,3vw,38px);}
+.tschool-logo{height:56px;width:auto;max-width:150px;object-fit:contain;flex:none;}
+.tschool-meta h2{font-family:var(--serif);font-weight:400;font-size:clamp(23px,2.7vw,31px);color:var(--ink-strong);letter-spacing:-.01em;line-height:1.1;}
+.tschool-count{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent-deep);}
+
+/* ---------- carousel shell ---------- */
+.tcar{display:flex;align-items:center;gap:clamp(8px,1.4vw,20px);}
+.tcar-vp{position:relative;flex:1 1 auto;overflow:hidden;padding-block:26px;}
+.tcar-track{display:flex;gap:24px;will-change:transform;transition:transform .55s cubic-bezier(.16,1,.3,1);touch-action:pan-y;}
+.tcar-track.no-anim{transition:none;}
+
+/* static mode — schools with 1 or 2 courses: equal cards, centred as a group */
+.tcar--static .tcar-vp{padding-block:26px;}
+.tcar--static .tcar-track{justify-content:center;transform:none!important;gap:clamp(16px,2.2vw,28px);}
+.tcar--static .tcourse{flex:1 1 0;max-width:302px;}
+
+.tcar-arrow{
+  flex:none;width:46px;height:46px;border:1px solid var(--ink-strong);background:var(--surface);
+  display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--ink-strong);
+  transition:background .3s,color .3s,opacity .25s;position:relative;overflow:hidden;isolation:isolate;
+}
+.tcar-arrow::before{content:"";position:absolute;inset:0;background:var(--ink-strong);transform:scaleX(0);transform-origin:left center;transition:transform .35s cubic-bezier(.7,0,.3,1);z-index:-1;}
+.tcar-arrow:hover:not(:disabled){color:#fff;}
+.tcar-arrow:hover:not(:disabled)::before{transform:scaleX(1);}
+.tcar-arrow svg{width:17px;height:17px;}
+.tcar-arrow:disabled{opacity:.24;cursor:default;}
+.tcar-arrow:focus-visible{outline:2px solid var(--accent-deep);outline-offset:3px;}
+
+/* ---------- course card (crossfade reveal — mirrors Home featured cards) ---------- */
+.tcourse{
+  flex:none;width:302px;height:300px;position:relative;
+  border:1px solid var(--hairline);background:var(--bg);
+  transform-origin:center;transition:transform .5s cubic-bezier(.16,1,.3,1),opacity .45s ease,box-shadow .5s ease,border-color .3s;
+  outline-offset:3px;
+}
+.tcourse.is-center{transform:scale(1.055);z-index:3;box-shadow:0 24px 60px -34px rgba(8,11,22,.5);border-color:var(--hairline);background:var(--surface);}
+.tcourse.is-side{transform:scale(.9);opacity:.8;z-index:2;}
+.tcourse.is-far{opacity:.28;pointer-events:none;z-index:1;}
+
+.tcourse-stage{display:grid;height:100%;}
+.tcourse-stage>*{grid-area:1/1;}
+
+.tcourse-face{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;
+  padding:32px 26px;gap:22px;transition:opacity .55s cubic-bezier(.4,0,.2,1);
+}
+.tcourse-disc{display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint);}
+.tcourse-disc .dot{width:7px;height:7px;border-radius:50%;flex:none;}
+.tcourse-logo{height:56px;width:auto;max-width:60%;object-fit:contain;}
+.tcourse-face h3{font-family:var(--serif);font-weight:500;font-size:19px;line-height:1.28;color:var(--ink-strong);}
+
+.tcourse-back{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;
+  padding:34px 28px;gap:18px;opacity:0;
+  background:rgba(250,248,255,0);
+  transition:opacity .55s cubic-bezier(.4,0,.2,1),background .55s ease;
+}
+/* course name is the centred focus; level tag sits beside it, small + secondary */
+.tcourse-head{width:100%;display:flex;justify-content:center;align-items:baseline;gap:10px;flex-wrap:wrap;}
+.tcourse-name{font-family:var(--serif);font-weight:500;font-size:20px;line-height:1.25;color:var(--ink-strong);text-align:center;}
+.tcourse-tag{white-space:nowrap;font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent-deep);border:1px solid var(--accent-soft);padding:3px 6px;flex:none;align-self:center;}
+.tcourse-rule{width:34px;height:1px;background:var(--accent);}
+.tcourse-desc{font-size:14px;line-height:1.6;color:var(--ink-soft);max-width:30ch;}
+
+.tcourse:hover .tcourse-face,.tcourse:focus-within .tcourse-face{opacity:.14;}
+.tcourse:hover .tcourse-back,.tcourse:focus-within .tcourse-back{opacity:1;background:rgba(250,248,255,.62);}
+
+/* touch / no-hover: show the description without requiring hover */
+@media (hover:none){
+  .tcourse.is-center .tcourse-face{opacity:.14;}
+  .tcourse.is-center .tcourse-back{opacity:1;background:rgba(250,248,255,.62);}
+}
+
+@media(max-width:1024px){
+  .tcourse{width:270px;height:288px;}
+}
+@media(max-width:620px){
+  .tschool-head{gap:16px;}
+  .tschool-logo{height:44px;}
+  .tcar-track{gap:16px;}
+  .tcourse{width:78vw;max-width:320px;height:300px;}
+  .tcourse.is-side{transform:scale(.94);opacity:.5;}
+  .tcar-arrow{width:42px;height:42px;}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .tcar-track{transition:none;}
+  .tcourse{transition:opacity .2s ease;}
+  .tcourse.is-center,.tcourse.is-side{transform:none;}
+  .tcourse-face,.tcourse-back{transition:opacity .2s ease;}
+}
+</style>
+</head>
+<body data-page="teaching">
+
+<header class="nav">
+  <div class="nav-inner">
+    <a class="brand" href="index.html"><img src="assets/parv-logo.png" alt="Parv Kaur" /></a>
+    <nav class="nav-links">
+      <a href="index.html" data-nav="home" data-i18n="nav.home">Profile</a>
+      <a href="experience.html" data-nav="experience" data-i18n="nav.experience">Experience</a>
+      <a href="teaching.html" data-nav="teaching" data-i18n="nav.teaching">In the Classroom</a>
+      <a href="voices.html" data-nav="voices" data-i18n="nav.voices">From the Classroom</a>
+      <a href="about.html" data-nav="about" data-i18n="nav.about">The Story</a>
+      <a class="nav-extra" href="https://www.linkedin.com/in/parv-kaur-dtn-education-a40706145/" target="_blank" rel="noopener">LinkedIn ↗</a>
+      <a class="nav-extra" href="assets/Parv_KAUR_Resume.pdf" download>Download CV ↓</a>
+    </nav>
+    <div class="nav-right">
+      <div class="nav-icons">
+        <a class="nav-icon" href="https://www.linkedin.com/in/parv-kaur-dtn-education-a40706145/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.2 8h4.6v14H.2V8zm7.2 0h4.4v1.92h.06c.61-1.16 2.1-2.38 4.32-2.38 4.62 0 5.47 3.04 5.47 7v7.46h-4.6v-6.61c0-1.58-.03-3.61-2.2-3.61-2.2 0-2.54 1.72-2.54 3.5V22H7.4V8z"/></svg></a>
+        <a class="nav-icon" href="assets/Parv_KAUR_Resume.pdf" download aria-label="Download CV"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 4v12M6 11l6 6 6-6"/></svg></a>
+      </div>
+      <div class="lang" role="group" aria-label="Language">
+        <button data-lang="en">EN</button><span class="sep">/</span><button data-lang="fr">FR</button>
+      </div>
+      <a class="btn btn-primary" href="index.html#contact"><span class="nav-cta-text" data-i18n="nav.cta">Get in touch</span><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <button class="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap page-head section">
+  <div class="teach-head reveal">
+    <div class="overline" style="margin-bottom:22px"><span data-i18n="teach.kicker">Curriculum</span></div>
+    <h1 class="display" data-i18n="teach.title">Curriculums designed for <em>impact.</em></h1>
+    <p class="lead" data-i18n="teach.lead">A multidisciplinary teaching portfolio in data, marketing and management, from undergraduate to MBA level.</p>
+  </div>
+
+  <div class="filters reveal">
+    <div class="fgroup">
+      <span class="fgroup-label" data-i18n="teach.level">Level</span>
+      <div class="fpills" data-filter="level" role="group" aria-label="Filter by level">
+        <button class="fpill on" data-val="all" data-i18n="teach.all">All</button>
+        <button class="fpill" data-val="bachelor" data-i18n="teach.bachelor">Bachelor</button>
+        <button class="fpill" data-val="master" data-i18n="teach.master">Master</button>
+        <button class="fpill" data-val="mba">MBA</button>
+      </div>
+    </div>
+    <div class="fgroup">
+      <span class="fgroup-label" data-i18n="teach.disc">Discipline</span>
+      <div class="fpills" data-filter="disc" role="group" aria-label="Filter by discipline">
+        <button class="fpill on" data-val="all" data-i18n="teach.all">All</button>
+        <button class="fpill" data-val="bi">BI &amp; Data Analytics</button>
+        <button class="fpill" data-val="ob" data-i18n="teach.ob">OB &amp; Talent Management</button>
+        <button class="fpill" data-val="dm" data-i18n="teach.dm">Digital Marketing &amp; Brand</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="tschools" id="tschools"></div>
+</main>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="wrap contact-grid">
+    <div class="reveal">
+      <h2 data-i18n="contact.title">Let's discuss the<br /><em>future of learning.</em></h2>
+      <div class="contact-socials">
+        <a class="cs" href="https://www.linkedin.com/in/parv-kaur-dtn-education-a40706145/" target="_blank" rel="noopener"><span class="cs-label">LinkedIn</span><span class="cs-arrow" aria-hidden="true">↗</span></a>
+        <a class="cs" href="mailto:parvk1398@gmail.com"><span class="cs-label" data-i18n="contact.email">Email</span><span class="cs-arrow" aria-hidden="true">↗</span></a>
+        <a class="cs" href="https://calendar.app.google/xvNf4ekBUhsXnGnc7" target="_blank" rel="noopener"><span class="cs-label" data-i18n="contact.calendly">Schedule a call</span><span class="cs-arrow" aria-hidden="true">↗</span></a>
+      </div>
+    </div>
+    <form class="form reveal" data-contact>
+      <div class="field"><label data-i18n="form.name">Name</label><input type="text" required data-i18n-ph="form.name.ph" placeholder="Your name" /></div>
+      <div class="field"><label data-i18n="form.email">Email address</label><input type="email" required data-i18n-ph="form.email.ph" placeholder="you@institution.com" /></div>
+      <div class="field"><label data-i18n="form.msg">Message</label><textarea required data-i18n-ph="form.msg.ph" placeholder="How can I help your programme?"></textarea></div>
+      <button class="btn btn-primary" type="submit" style="align-self:flex-start"><span data-i18n="form.send">Send message</span><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+    </form>
+  </div>
+  <div class="footer-bar">
+    <div class="footer-bar-inner">
+      <div class="footer-bar-top">
+        <div>
+          <div class="brand"><b>PK</b> <span>|</span> Parv Kaur</div>
+          <div class="footer-copy">© 2026 Parv Kaur. All rights reserved.</div>
+        </div>
+      </div>
+      <div class="footer-legal">
+        <p data-i18n="footer.gdpr">In accordance with the GDPR and the French Loi Informatique et Libertés of 6 January 1978 (as amended), you have the right to access, rectify, port and erase any personal data you provide via this site, and to restrict or object to its processing. To exercise these rights or for any privacy enquiry, contact <a href="mailto:parvk1398@gmail.com">parvk1398@gmail.com</a>. No data submitted through the contact form is shared with third parties. This site does not use tracking cookies.</p>
+        <p class="footer-legal-links"><a href="#" data-i18n="footer.mentions">Legal notice</a> · <a href="#" data-i18n="footer.privacy">Privacy policy</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+window.I18N_FR = {
+  "nav.home":"Profil","nav.about":"L'histoire","nav.teaching":"En classe","nav.voices":"Échos de la classe","nav.experience":"Parcours","nav.cta":"Me contacter",
+  "footer.gdpr":"Conformément au Règlement Général sur la Protection des Données (RGPD) et à la loi Informatique et Libertés du 6 janvier 1978 modifiée, vous disposez d'un droit d'accès, de rectification, de portabilité et d'effacement de vos données personnelles communiquées via ce site, ainsi que d'un droit à la limitation et d'opposition au traitement. Pour exercer ces droits ou pour toute question relative à la confidentialité, contactez <a href='mailto:parvk1398@gmail.com'>parvk1398@gmail.com</a>. Aucune donnée transmise via le formulaire de contact n'est partagée avec des tiers. Ce site n'utilise pas de cookies de suivi.","footer.mentions":"Mentions légales","footer.privacy":"Politique de confidentialité","contact.calendly":"Réserver un appel",
+  "teach.kicker":"Programmes","teach.title":"Des programmes conçus pour <em>l'impact.</em>",
+  "teach.lead":"Un portefeuille d'enseignement pluridisciplinaire en data, marketing et management, de la licence au MBA.",
+  "teach.level":"Niveau","teach.all":"Tous","teach.bachelor":"Licence","teach.master":"Master",
+  "teach.disc":"Discipline","teach.dm":"Marketing digital &amp; marque","teach.ob":"Comportement &amp; talents","teach.filter":"Filtrer",
+  "contact.title":"Parlons de<br /><em>l'avenir de l'apprentissage.</em>","contact.email":"E-mail",
+  "form.name":"Nom","form.email":"Adresse e-mail","form.msg":"Message","form.send":"Envoyer le message",
+  "form.name.ph":"Votre nom","form.email.ph":"vous@etablissement.com","form.msg.ph":"Comment puis-je aider votre programme ?"
+};
+
+/* ---------- Course data ----------
+   Easy to extend: add { t, lvl, disc, inst } objects.
+   lvl: bachelor | master | mba   disc: bi | ob | dm
+   inst: key from INSTS below
+   To add a course description once the final briefs arrive, give the course a
+   `desc` field: { t:"…", lvl:"…", disc:"…", inst:"…", desc:{ en:"…", fr:"…" } }  */
+var INSTS = {
+  rennes:"Rennes School of Business", inseec:"INSEEC Paris", "paris-saclay":"Université Paris-Saclay",
+  "iae-lille":"IAE Lille", ascencia:"Collège de Paris — Ascencia", ferrieres:"École Ferrières",
+  ilci:"ILCI Business School", ifag:"IFAG", idrac:"IDRAC Business School", gema:"GEMA Business School",
+  "esg-luxe":"ESG Luxe", "esc-amiens":"ESC Amiens", iscom:"ISCOM", amos:"AMOS",
+  icd:"ICD Business School", eidm:"EIDM Fashion Business School", cmh:"CMH"
+};
+var DISC = {
+  bi:{l:"BI & Data Analytics", c:"#3a6ea5"},
+  ob:{l:"OB & Talent Management", c:"#3f7d56"},
+  dm:{l:"Digital Marketing & Brand", c:"#b0792a"}
+};
+var COURSES = [
+  // Rennes School of Business
+  {t:"Management and Sustainable Leadership", lvl:"bachelor", disc:"ob", inst:"rennes"},
+  {t:"Organizational Behavior", lvl:"bachelor", disc:"ob", inst:"rennes"},
+  {t:"Project Management", lvl:"master", disc:"ob", inst:"rennes"},
+  {t:"Unframed Thinking and Collaborative Learning", lvl:"master", disc:"ob", inst:"rennes"},
+  // INSEEC Paris
+  {t:"Advanced Research — Qualitative and Quantitative", lvl:"master", disc:"bi", inst:"inseec"},
+  // Université Paris-Saclay
+  {t:"CRM and Database Management", lvl:"master", disc:"bi", inst:"paris-saclay"},
+  {t:"Advanced Excel and VBA", lvl:"master", disc:"bi", inst:"paris-saclay"},
+  // IAE Lille
+  {t:"IT and Database Management", lvl:"master", disc:"bi", inst:"iae-lille"},
+  {t:"Machine Learning and Data Analytics", lvl:"master", disc:"bi", inst:"iae-lille"},
+  // Collège de Paris — Ascencia
+  {t:"MACRO / VBA in Excel", lvl:"master", disc:"bi", inst:"ascencia"},
+  {t:"Power BI and Applied Excel", lvl:"master", disc:"bi", inst:"ascencia"},
+  {t:"Excel applied on Purchases and Statistics", lvl:"master", disc:"bi", inst:"ascencia"},
+  {t:"Data-driven Commercial", lvl:"master", disc:"bi", inst:"ascencia"},
+  {t:"Data-driven Marketing", lvl:"master", disc:"dm", inst:"ascencia"},
+  {t:"Content Marketing", lvl:"master", disc:"dm", inst:"ascencia"},
+  {t:"Marketing and Communication Strategy", lvl:"master", disc:"dm", inst:"ascencia"},
+  {t:"Marketing Development", lvl:"master", disc:"dm", inst:"ascencia"},
+  {t:"Team Management", lvl:"master", disc:"ob", inst:"ascencia"},
+  {t:"Leadership and Coaching", lvl:"master", disc:"ob", inst:"ascencia"},
+  {t:"Business Relationship", lvl:"bachelor", disc:"ob", inst:"ascencia"},
+  {t:"English for Business and Finance", lvl:"bachelor", disc:"ob", inst:"ascencia"},
+  // École Ferrières
+  {t:"CRM and Database Management", lvl:"master", disc:"bi", inst:"ferrieres"},
+  {t:"Innovation Management", lvl:"master", disc:"ob", inst:"ferrieres"},
+  {t:"Hospitality Marketing", lvl:"master", disc:"dm", inst:"ferrieres"},
+  // ILCI Business School
+  {t:"Data Analytics", lvl:"bachelor", disc:"bi", inst:"ilci"},
+  {t:"Expérience et parcours clientèle", lvl:"bachelor", disc:"dm", inst:"ilci"},
+  {t:"Consumer Behaviour", lvl:"bachelor", disc:"dm", inst:"ilci"},
+  // IFAG
+  {t:"Market Research and Analysis", lvl:"mba", disc:"bi", inst:"ifag"},
+  {t:"Sustainable Leadership (Case of NGO SEVA)", lvl:"mba", disc:"ob", inst:"ifag"},
+  {t:"Social Marketing", lvl:"mba", disc:"dm", inst:"ifag"},
+  // IDRAC Business School
+  {t:"Sales Analytics", lvl:"bachelor", disc:"bi", inst:"idrac"},
+  {t:"Geopolitics", lvl:"bachelor", disc:"ob", inst:"idrac"},
+  {t:"International Relations", lvl:"bachelor", disc:"ob", inst:"idrac"},
+  // GEMA Business School
+  {t:"Big Data Management", lvl:"master", disc:"bi", inst:"gema"},
+  {t:"Machine Learning", lvl:"master", disc:"bi", inst:"gema"},
+  // ESG Luxe
+  {t:"Diagnostic d'entreprise — Techniques Quantitatives", lvl:"master", disc:"bi", inst:"esg-luxe"},
+  // ESC Amiens
+  {t:"Intercultural Management", lvl:"master", disc:"ob", inst:"esc-amiens"},
+  {t:"Outils numériques pour la prise de décision", lvl:"master", disc:"bi", inst:"esc-amiens"},
+  // ISCOM
+  {t:"Social Media Marketing and Communication", lvl:"bachelor", disc:"dm", inst:"iscom"},
+  {t:"Foundations of Social Media", lvl:"bachelor", disc:"dm", inst:"iscom"},
+  {t:"Project Micro Agency", lvl:"bachelor", disc:"dm", inst:"iscom"},
+  {t:"Professional Mission", lvl:"bachelor", disc:"ob", inst:"iscom"},
+  {t:"Excel for Business", lvl:"bachelor", disc:"bi", inst:"iscom"},
+  // AMOS
+  {t:"Retail and Distribution", lvl:"master", disc:"ob", inst:"amos"},
+  {t:"Supply Chain Management", lvl:"master", disc:"ob", inst:"amos"},
+  {t:"Sustainability", lvl:"bachelor", disc:"ob", inst:"amos"},
+  {t:"Digital Marketing", lvl:"bachelor", disc:"dm", inst:"amos"},
+  {t:"SEO and SEM", lvl:"bachelor", disc:"dm", inst:"amos"},
+  {t:"Introduction to Scientific Research", lvl:"bachelor", disc:"bi", inst:"amos"},
+  // ICD Business School
+  {t:"English for Business and Finance", lvl:"master", disc:"ob", inst:"icd"},
+  {t:"Excel for Business", lvl:"master", disc:"bi", inst:"icd"},
+  {t:"Advanced Excel for Business", lvl:"master", disc:"bi", inst:"icd"},
+  {t:"Performance Management", lvl:"master", disc:"ob", inst:"icd"},
+  {t:"Market Research", lvl:"master", disc:"bi", inst:"icd"},
+  {t:"Market Operations", lvl:"master", disc:"dm", inst:"icd"},
+  {t:"Sustainability", lvl:"master", disc:"ob", inst:"icd"},
+  {t:"Advanced Data Modelling", lvl:"master", disc:"bi", inst:"icd"},
+  {t:"Marketing Function", lvl:"master", disc:"dm", inst:"icd"},
+  {t:"Social Media and Influence Strategies", lvl:"master", disc:"dm", inst:"icd"},
+  {t:"International Event Management", lvl:"bachelor", disc:"ob", inst:"icd"},
+  {t:"Event Designing and Planning", lvl:"bachelor", disc:"ob", inst:"icd"},
+  {t:"Economics for the 21st Century", lvl:"bachelor", disc:"ob", inst:"icd"},
+  // EIDM Fashion Business School
+  {t:"COIL — Collaborative Online International Learning (Utrecht University)", lvl:"bachelor", disc:"ob", inst:"eidm"},
+  {t:"International Project Management", lvl:"bachelor", disc:"ob", inst:"eidm"},
+  {t:"Digital Branding", lvl:"master", disc:"dm", inst:"eidm"},
+  {t:"Community Management and Social Media", lvl:"master", disc:"dm", inst:"eidm"},
+  {t:"Intercultural Communication", lvl:"master", disc:"ob", inst:"eidm"},
+  {t:"Purchasing and Sourcing", lvl:"master", disc:"ob", inst:"eidm"},
+  {t:"Event Management", lvl:"bachelor", disc:"ob", inst:"eidm"},
+  // CMH
+  {t:"Power BI and Tableau", lvl:"master", disc:"bi", inst:"cmh"},
+  {t:"Digital Case", lvl:"master", disc:"dm", inst:"cmh"},
+  {t:"Web Marketing & Digital Communication", lvl:"master", disc:"dm", inst:"cmh"},
+  {t:"Community Management & Social Media", lvl:"master", disc:"dm", inst:"cmh"},
+  {t:"Communication and Event Management", lvl:"master", disc:"ob", inst:"cmh"},
+  {t:"Public Relations and Press Releases", lvl:"master", disc:"dm", inst:"cmh"},
+  {t:"Communication Strategies for Hospitality", lvl:"master", disc:"dm", inst:"cmh"},
+  {t:"CRM and Database Management", lvl:"master", disc:"bi", inst:"cmh"},
+  {t:"Strategic Marketing", lvl:"master", disc:"dm", inst:"cmh"},
+  {t:"Operational Marketing", lvl:"master", disc:"dm", inst:"cmh"},
+  {t:"E-Marketing", lvl:"master", disc:"dm", inst:"cmh"},
+  {t:"B2B Marketing", lvl:"master", disc:"dm", inst:"cmh"},
+  {t:"Service Marketing", lvl:"master", disc:"dm", inst:"cmh"},
+  {t:"Advanced Excel for Business", lvl:"master", disc:"bi", inst:"cmh"}
+];
+
+(function(){
+  var wrap = document.getElementById('tschools');
+  var reduceMQ = window.matchMedia('(prefers-reduced-motion:reduce)');
+  function t(en,fr){ return document.documentElement.lang==='fr' ? fr : en; }
+  var LVL = { bachelor:["Bachelor\u2019s","Licence"], master:["Master\u2019s","Master"], mba:["MBA","MBA"] };
+
+  function descOf(c){
+    if(c.desc){ return t(c.desc.en, c.desc.fr); }
+    // Placeholder until the final course briefs are supplied.
+    return t("Course brief coming soon — a short overview of the syllabus, teaching approach and outcomes will appear here.",
+             "Descriptif à venir — un aperçu du programme, de l'approche pédagogique et des objectifs sera bientôt disponible ici.");
+  }
+
+  // Fixed display ranking; remaining schools keep their first-appearance order.
+  var ORDER_PRIORITY = ['rennes','paris-saclay','iae-lille','inseec','esc-amiens','ifag','idrac','esg-luxe','eidm','amos'];
+
+  function groupedOrdered(){
+    var byInst={}, appear=[];
+    COURSES.forEach(function(c){ if(!byInst[c.inst]){ byInst[c.inst]=[]; appear.push(c.inst); } byInst[c.inst].push(c); });
+    var ordered = ORDER_PRIORITY.filter(function(k){ return byInst[k]; })
+      .concat(appear.filter(function(k){ return ORDER_PRIORITY.indexOf(k)<0; }));
+    return { byInst:byInst, order:ordered };
+  }
+
+  var state = { level:'all', disc:'all' };
+  function matches(c){
+    return (state.level==='all'||c.lvl===state.level) && (state.disc==='all'||c.disc===state.disc);
+  }
+
+  var CHEV_L='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M15 5l-7 7 7 7"/></svg>';
+  var CHEV_R='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M9 5l7 7-7 7"/></svg>';
+
+  var rows=[];
+
+  function buildCard(inst,c){
+    var d=DISC[c.disc];
+    var card=document.createElement('article');
+    card.className='tcourse'; card.tabIndex=0; card.setAttribute('aria-label',c.t);
+    card.innerHTML=
+      '<div class="tcourse-stage">'+
+        '<div class="tcourse-face">'+
+          '<div class="tcourse-disc"><span class="dot" style="background:'+d.c+'"></span>'+d.l+'</div>'+
+          '<img class="tcourse-logo" src="assets/logos-t/'+inst+'.png" alt="" />'+
+          '<h3>'+c.t+'</h3>'+
+        '</div>'+
+        '<div class="tcourse-back">'+
+          '<div class="tcourse-head"><h3 class="tcourse-name">'+c.t+'</h3><span class="tcourse-tag">'+LVL[c.lvl][document.documentElement.lang==='fr'?1:0]+'</span></div>'+
+          '<div class="tcourse-rule"></div>'+
+          '<p class="tcourse-desc">'+descOf(c)+'</p>'+
+        '</div>'+
+      '</div>';
+    card._course=c;
+    return card;
+  }
+
+  function render(){
+    wrap.innerHTML=''; rows=[];
+    var g=groupedOrdered(); var any=false;
+
+    g.order.forEach(function(inst){
+      var list=g.byInst[inst].filter(matches);
+      if(!list.length) return;
+      any=true;
+
+      var sec=document.createElement('section'); sec.className='tschool reveal';
+      var head=document.createElement('div'); head.className='tschool-head';
+      head.innerHTML='<img class="tschool-logo" src="assets/logos-t/'+inst+'.png" alt="'+INSTS[inst]+'" />'+
+        '<div class="tschool-meta"><h2>'+INSTS[inst]+'</h2>'+
+        '<span class="tschool-count" data-count="'+list.length+'"></span></div>';
+      sec.appendChild(head);
+
+      var car=document.createElement('div'); car.className='tcar';
+      var isStatic = list.length<=2;
+      if(isStatic) car.classList.add('tcar--static');
+      var prev=document.createElement('button'); prev.type='button'; prev.className='tcar-arrow tcar-prev'; prev.innerHTML=CHEV_L;
+      var next=document.createElement('button'); next.type='button'; next.className='tcar-arrow tcar-next'; next.innerHTML=CHEV_R;
+      var vp=document.createElement('div'); vp.className='tcar-vp';
+      var track=document.createElement('div'); track.className='tcar-track';
+      list.forEach(function(c){ track.appendChild(buildCard(inst,c)); });
+      vp.appendChild(track);
+      car.appendChild(prev); car.appendChild(vp); car.appendChild(next);
+      sec.appendChild(car);
+      wrap.appendChild(sec);
+
+      rows.push(initCarousel({sec:sec,vp:vp,track:track,prev:prev,next:next,cards:[].slice.call(track.children),n:list.length,isStatic:isStatic}));
+    });
+
+    if(!any){
+      wrap.innerHTML='<div class="tempty">'+t('No courses match these filters.','Aucun cours ne correspond à ces filtres.')+'</div>';
+    }
+  }
+
+  function initCarousel(r){
+    var n=r.n;
+    function frFlag(){ return document.documentElement.lang==='fr'; }
+    function relabel(){
+      var cnt=r.sec.querySelector('.tschool-count');
+      var nc=+cnt.getAttribute('data-count');
+      cnt.textContent = nc + ' ' + (frFlag() ? 'cours' : (nc===1?'course':'courses'));
+      r.prev.setAttribute('aria-label', t('Previous courses','Cours précédents'));
+      r.next.setAttribute('aria-label', t('Next courses','Cours suivants'));
+    }
+    relabel();
+
+    function metrics(track){
+      var first=track.children[0];
+      var cw=first?first.offsetWidth:300;
+      var gap=parseFloat(getComputedStyle(track).columnGap||getComputedStyle(track).gap)||24;
+      return {cw:cw,gap:gap,vpW:r.vp.clientWidth};
+    }
+
+    // ---- STATIC (1–2 courses): equal cards, centred, no arrows, no prominence ----
+    if(n<=2){
+      r.prev.style.display=r.next.style.display='none';
+      r.cards.forEach(function(cd){ cd.classList.remove('is-center','is-side','is-far'); cd.setAttribute('aria-hidden','false'); });
+      return { apply:function(){}, localize:relabel };
+    }
+
+    // ---- FIXED THREE: middle prominent, no navigation ----
+    if(n===3){
+      r.prev.style.display=r.next.style.display='none';
+      function apply3(){
+        var m=metrics(r.track);
+        var base=m.vpW/2 - (1*(m.cw+m.gap) + m.cw/2);
+        r.track.style.transform='translate3d('+base+'px,0,0)';
+        r.cards.forEach(function(cd,i){
+          cd.classList.toggle('is-center', i===1);
+          cd.classList.toggle('is-side', i!==1);
+          cd.classList.remove('is-far');
+          cd.setAttribute('aria-hidden','false');
+        });
+      }
+      apply3();
+      return { apply:apply3, localize:relabel };
+    }
+
+    // ---- SEAMLESS INFINITE LOOP (>=4 courses) ----
+    // Clone a buffer of B cards on each side so the visible three-card window
+    // never runs out; after stepping into a clone we rebase by n courses with
+    // the animation suppressed — the clone is pixel-identical to its real card,
+    // so the loop is seamless (no jump, blank or in-group duplicate).
+    var B=3;
+    var reals=r.cards.slice();
+    var frag=document.createDocumentFragment();
+    for(var k=0;k<B;k++){ var lc=reals[n-B+k].cloneNode(true); lc.classList.add('is-clone'); lc.removeAttribute('aria-label'); frag.appendChild(lc); }
+    reals.forEach(function(nd){ frag.appendChild(nd); });
+    for(k=0;k<B;k++){ var rc=reals[k].cloneNode(true); rc.classList.add('is-clone'); rc.removeAttribute('aria-label'); frag.appendChild(rc); }
+    r.track.innerHTML=''; r.track.appendChild(frag);
+    var kids=[].slice.call(r.track.children); // length n + 2B; reals at [B .. B+n-1]
+
+    var p = B + 1;   // start with the second course centred
+    var peek = 0;
+
+    function place(anim){
+      if(!anim) r.track.classList.add('no-anim');
+      var m=metrics(r.track);
+      var base=m.vpW/2 - (p*(m.cw+m.gap) + m.cw/2);
+      r.track.style.transform='translate3d('+(base+peek)+'px,0,0)';
+      kids.forEach(function(cd,idx){
+        var d=Math.abs(idx-p);
+        cd.classList.toggle('is-center', idx===p);
+        cd.classList.toggle('is-side', d===1);
+        cd.classList.toggle('is-far', d>1);
+        cd.setAttribute('aria-hidden', d>1 ? 'true' : 'false');
+      });
+      if(!anim){ void r.track.offsetWidth; r.track.classList.remove('no-anim'); }
+    }
+    // invisibly bring p back into the real band [B, B+n-1]
+    function flush(){
+      if(p < B){ p += n; place(false); }
+      else if(p > B+n-1){ p -= n; place(false); }
+    }
+    function step(dir){ flush(); peek=0; p += dir; place(true); }
+
+    r.prev.style.display=r.next.style.display='';
+    r.prev.addEventListener('click', function(){ step(-1); });
+    r.next.addEventListener('click', function(){ step(1); });
+
+    function setPeek(px){ if(reduceMQ.matches) return; peek=px; place(true); }
+    r.next.addEventListener('mouseenter', function(){ setPeek(-22); });
+    r.next.addEventListener('mouseleave', function(){ setPeek(0); });
+    r.prev.addEventListener('mouseenter', function(){ setPeek(22); });
+    r.prev.addEventListener('mouseleave', function(){ setPeek(0); });
+
+    r.sec.addEventListener('keydown', function(e){
+      if(e.key==='ArrowLeft'){ e.preventDefault(); step(-1); kids[p]&&kids[p].focus(); }
+      else if(e.key==='ArrowRight'){ e.preventDefault(); step(1); kids[p]&&kids[p].focus(); }
+    });
+
+    var dragging=false, startX=0, moved=0;
+    r.vp.addEventListener('pointerdown', function(e){
+      if(e.target.closest('.tcar-arrow')) return;
+      dragging=true; startX=e.clientX; moved=0; flush();
+    });
+    window.addEventListener('pointermove', function(e){
+      if(!dragging) return;
+      moved=e.clientX-startX; peek=Math.max(-140,Math.min(140,moved)); place(false);
+    });
+    window.addEventListener('pointerup', function(){
+      if(!dragging) return;
+      dragging=false; peek=0;
+      if(moved<=-48) step(1);
+      else if(moved>=48) step(-1);
+      else place(true);
+    });
+
+    place(false);
+    return { apply:function(){ place(false); }, localize:relabel };
+  }
+
+  // ---- filter pills (single-select per group) ----
+  document.querySelectorAll('.fpills[data-filter="level"], .fpills[data-filter="disc"]').forEach(function(group){
+    var key = group.getAttribute('data-filter');
+    group.querySelectorAll('.fpill').forEach(function(b){
+      b.addEventListener('click', function(){
+        group.querySelectorAll('.fpill').forEach(function(x){ x.classList.remove('on'); });
+        b.classList.add('on'); state[key]=b.getAttribute('data-val'); render();
+      });
+    });
+  });
+
+  var rt;
+  window.addEventListener('resize', function(){
+    clearTimeout(rt); rt=setTimeout(function(){ rows.forEach(function(r){ r.apply(); }); }, 120);
+  }, {passive:true});
+
+  // language toggle rebuilds the rows (card copy is generated in JS)
+  document.querySelectorAll('.lang button').forEach(function(b){
+    b.addEventListener('click', function(){ setTimeout(render, 0); });
+  });
+
+  render();
+  window.addEventListener('load', function(){ rows.forEach(function(r){ r.apply(); r.localize(); }); });
+})();
+</script>
+<script src="js/site.js"></script>
+</body>
+</html>
