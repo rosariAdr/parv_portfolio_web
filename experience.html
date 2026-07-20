@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Experience — Parv Kaur</title>
+<meta name="description" content="Professional experience — from market research at AVIV Group and Helvetia to higher-education consulting and founding the SEVA NGO." />
+<link rel="stylesheet" href="css/style.css" />
+<style>
+.xp{position:relative;}
+
+/* CV button — matches the Profile portrait Download CV (black left-to-right fill) */
+.cv-dl{display:inline-flex;align-items:center;gap:14px;font-family:var(--mono);font-size:12.5px;letter-spacing:.1em;text-transform:uppercase;padding:18px 22px;background:var(--surface);color:var(--ink-strong);border:1px solid var(--ink-strong);position:relative;overflow:hidden;isolation:isolate;}
+.cv-dl::before{content:"";position:absolute;inset:0;background:var(--ink-strong);transform:scaleX(0);transform-origin:left center;transition:transform .4s cubic-bezier(.7,0,.3,1);z-index:-1;}
+.cv-dl:hover{color:#fff;}
+.cv-dl:hover::before{transform:scaleX(1);}
+@media(prefers-reduced-motion:reduce){.cv-dl::before{transition:none;}}
+
+/* ---- persistent heading ---- */
+.xp-head{
+  display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap;
+  border-bottom:1px solid var(--hairline);padding-bottom:30px;
+}
+.xp-head h1{font-size:clamp(44px,7vw,84px);font-weight:300;}
+
+/* ---- the swapping items (static = simple stacked rows) ---- */
+.xp-track{position:relative;}
+.xp-item{
+  display:grid;grid-template-columns:1fr minmax(320px,.82fr);
+  gap:clamp(28px,4.5vw,64px);align-items:center;
+  padding:clamp(44px,6vw,64px) 0;border-bottom:1px solid var(--hairline);
+}
+.xp-item:last-child{border-bottom:0;}
+
+.xp-body{max-width:62ch;}
+.xp-period{
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--accent-deep);margin-bottom:16px;
+}
+.xp-role{
+  font-family:var(--serif);font-size:clamp(25px,3vw,38px);font-weight:400;color:var(--ink-strong);
+  line-height:1.16;letter-spacing:-.01em;margin-bottom:4px;
+}
+.xp-role .at{font-style:italic;color:var(--ink-faint);font-size:.82em;}
+.xp-place{
+  font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--ink-faint);margin-bottom:22px;
+}
+.xp-list{list-style:none;display:flex;flex-direction:column;gap:14px;}
+.xp-list li{position:relative;padding-left:22px;font-size:15.5px;line-height:1.6;color:var(--ink-soft);}
+.xp-list li::before{content:"";position:absolute;left:0;top:11px;width:5px;height:5px;background:var(--accent);border-radius:50%;}
+.xp-list li strong{color:var(--ink-strong);font-weight:600;}
+
+/* ---- right visual: the logos are the hero (no card, no year) ---- */
+.xp-figure{
+  position:relative;width:100%;padding:0;overflow:hidden;
+  display:flex;align-items:center;justify-content:center;
+  min-height:clamp(320px,56vh,600px);
+}
+/* single hero logo — large */
+.xp-logos{display:flex;align-items:center;justify-content:center;gap:clamp(24px,3vw,40px);flex-wrap:wrap;max-width:100%;}
+.xp-logos img{height:auto;width:auto;max-height:clamp(150px,22vw,300px);max-width:min(100%,540px);object-fit:contain;}
+.xp-logos img.big{max-height:clamp(190px,26vw,340px);max-width:min(100%,560px);}
+/* logo wall — every institution from the Profile page */
+.xp-logos.wall{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:clamp(20px,3vw,40px) clamp(16px,2.2vw,30px);
+  width:100%;align-items:center;justify-items:center;
+}
+.xp-logos.wall img{max-height:clamp(52px,6.4vw,94px);max-width:100%;width:auto;height:auto;}
+
+/* ---- progress rail (only meaningful in pinned mode) ---- */
+.xp-rail{display:none;}
+
+@media(max-width:760px){
+  .xp-item{grid-template-columns:1fr;gap:22px;}
+  .xp-figure{min-height:auto;order:-1;padding:6px 0 2px;}
+  .xp-logos img{max-height:clamp(120px,34vw,190px);}
+  .xp-logos img.big{max-height:clamp(140px,40vw,210px);}
+  .xp-logos.wall{grid-template-columns:repeat(3,1fr);gap:18px 14px;}
+  .xp-logos.wall img{max-height:clamp(40px,11vw,66px);}
+}
+
+/* ============================================================
+   PINNED MODE  (added by inline js when supported)
+   ============================================================ */
+/* --xp-step = viewport-heights of scroll per role (higher = more gradual) */
+.xp.is-pinned{height:calc(100vh * var(--xp-n, 4) * var(--xp-step, 1.6));}
+.xp.is-pinned .xp-sticky{
+  position:sticky;top:var(--nav-h,0px);height:calc(100vh - var(--nav-h,0px));
+  display:flex;flex-direction:column;padding-block:clamp(20px,4vh,48px);
+}
+.xp.is-pinned .xp-track{flex:1 1 auto;min-height:0;margin-top:clamp(20px,4vh,44px);}
+.xp.is-pinned .xp-item{
+  position:absolute;inset:0;margin:0;padding:0;border:0;
+  align-content:start;pointer-events:none;
+}
+.xp.is-pinned .xp-item.is-active{pointer-events:auto;}
+
+/* body: vertical slide + fade (the "name" transition from the reference) */
+.xp.is-pinned .xp-body{
+  opacity:0;transform:translateY(52px);
+  transition:opacity .5s ease, transform .8s cubic-bezier(.16,1,.3,1);
+}
+.xp.is-pinned .xp-item.is-past .xp-body{transform:translateY(-52px);}
+.xp.is-pinned .xp-item.is-active .xp-body{opacity:1;transform:none;}
+
+/* figure: cross-fade + gentle zoom (the reference image swap) */
+.xp.is-pinned .xp-figure{
+  opacity:0;transform:scale(1.06);
+  transition:opacity .6s ease, transform .9s cubic-bezier(.16,1,.3,1);
+}
+.xp.is-pinned .xp-item.is-active .xp-figure{opacity:1;transform:none;}
+
+/* stagger the inner text so it reads like the reference reveal */
+.xp.is-pinned .xp-item.is-active .xp-period{animation:xpUp .6s .04s both cubic-bezier(.16,1,.3,1);}
+.xp.is-pinned .xp-item.is-active .xp-role{animation:xpUp .7s .10s both cubic-bezier(.16,1,.3,1);}
+.xp.is-pinned .xp-item.is-active .xp-place{animation:xpUp .7s .14s both cubic-bezier(.16,1,.3,1);}
+.xp.is-pinned .xp-item.is-active .xp-list li{animation:xpUp .7s both cubic-bezier(.16,1,.3,1);}
+.xp.is-pinned .xp-item.is-active .xp-list li:nth-child(1){animation-delay:.18s;}
+.xp.is-pinned .xp-item.is-active .xp-list li:nth-child(2){animation-delay:.24s;}
+.xp.is-pinned .xp-item.is-active .xp-list li:nth-child(3){animation-delay:.30s;}
+.xp.is-pinned .xp-item.is-active .xp-list li:nth-child(4){animation-delay:.36s;}
+.xp.is-pinned .xp-item.is-active .xp-list li:nth-child(5){animation-delay:.42s;}
+@keyframes xpUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:none;}}
+
+/* rail */
+.xp.is-pinned .xp-rail{
+  display:flex;align-items:center;gap:18px;flex:0 0 auto;
+  padding-top:clamp(18px,3vh,30px);
+}
+.xp-ticks{display:flex;align-items:center;gap:8px;}
+.xp-tick{
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;color:var(--ink-faint);
+  padding:6px 4px;line-height:1;transition:color .25s;position:relative;
+  background:none;border:0;cursor:pointer;
+}
+.xp-tick:hover{color:var(--ink-strong);}
+.xp-tick.is-active{color:var(--accent-deep);}
+.xp-tick:focus-visible{outline:2px solid var(--accent-deep);outline-offset:3px;}
+.xp-bar{position:relative;flex:1 1 auto;height:1px;background:var(--hairline);overflow:hidden;}
+.xp-bar span{
+  position:absolute;inset:0;background:var(--accent-deep);transform-origin:left center;
+  transform:scaleX(0);transition:transform .35s cubic-bezier(.16,1,.3,1);
+}
+.xp-count{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;color:var(--ink-faint);white-space:nowrap;}
+.xp-count b{color:var(--accent-deep);font-weight:500;}
+
+@media (prefers-reduced-motion:reduce){
+  .xp.is-pinned .xp-body,.xp.is-pinned .xp-figure{transition:none;}
+}
+</style>
+</head>
+<body data-page="experience">
+
+<header class="nav">
+  <div class="nav-inner">
+    <a class="brand" href="index.html"><img src="assets/parv-logo.png" alt="Parv Kaur" /></a>
+    <nav class="nav-links">
+      <a href="index.html" data-nav="home" data-i18n="nav.home">Profile</a>
+      <a href="experience.html" data-nav="experience" data-i18n="nav.experience">Experience</a>
+      <a href="teaching.html" data-nav="teaching" data-i18n="nav.teaching">In the Classroom</a>
+      <a href="voices.html" data-nav="voices" data-i18n="nav.voices">From the Classroom</a>
+      <a href="about.html" data-nav="about" data-i18n="nav.about">The Story</a>
+      <a class="nav-extra" href="https://www.linkedin.com/in/parv-kaur-dtn-education-a40706145/" target="_blank" rel="noopener">LinkedIn ↗</a>
+      <a class="nav-extra" href="assets/Parv_KAUR_Resume.pdf" download>Download CV ↓</a>
+    </nav>
+    <div class="nav-right">
+      <div class="nav-icons">
+        <a class="nav-icon" href="https://www.linkedin.com/in/parv-kaur-dtn-education-a40706145/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.2 8h4.6v14H.2V8zm7.2 0h4.4v1.92h.06c.61-1.16 2.1-2.38 4.32-2.38 4.62 0 5.47 3.04 5.47 7v7.46h-4.6v-6.61c0-1.58-.03-3.61-2.2-3.61-2.2 0-2.54 1.72-2.54 3.5V22H7.4V8z"/></svg></a>
+        <a class="nav-icon" href="assets/Parv_KAUR_Resume.pdf" download aria-label="Download CV"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 4v12M6 11l6 6 6-6"/></svg></a>
+      </div>
+      <div class="lang" role="group" aria-label="Language">
+        <button data-lang="en">EN</button><span class="sep">/</span><button data-lang="fr">FR</button>
+      </div>
+      <a class="btn btn-primary" href="index.html#contact"><span class="nav-cta-text" data-i18n="nav.cta">Get in touch</span><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <button class="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap page-head section">
+  <section class="xp" data-exp-scroll style="--xp-n:4">
+    <div class="xp-sticky">
+
+      <div class="xp-head reveal">
+        <h1 class="display" data-i18n="exp.title">Experience</h1>
+        <a class="cv-dl" href="assets/Parv_KAUR_Resume.pdf" download><span data-i18n="about.cv">Download complete CV</span><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 4v12M6 11l6 6 6-6"/></svg></a>
+      </div>
+
+      <div class="xp-track">
+
+        <!-- 01 — SEVA -->
+        <article class="xp-item" data-xp="0">
+          <div class="xp-body">
+            <div class="xp-period" data-i18n="exp.p1">2024 — Present</div>
+            <h2 class="xp-role" data-i18n="exp.r1">Founder <span class="at">· Solidarité et Engagement pour un Avenir (SEVA)</span></h2>
+            <div class="xp-place">Paris, France</div>
+            <ul class="xp-list">
+              <li data-i18n="exp.r1a">Partnering directly with the <strong>Indian Embassy in France</strong> to design events and workshops helping international students navigate cultural and linguistic challenges.</li>
+              <li data-i18n="exp.r1b">Building career pathways and helping students integrate into the French workplace through language and cultural support.</li>
+              <li data-i18n="exp.r1c"><strong>Delivering luxury-industry networking opportunities</strong> and specialised workshops.</li>
+              <li data-i18n="exp.r1d">Designing and delivering technical bootcamps in <strong>Power BI and SQL</strong> to upskill students in data tools and bridge them into the French job market.</li>
+            </ul>
+          </div>
+          <figure class="xp-figure">
+            <div class="xp-logos"><img class="big" src="assets/logos-t/seva.png" alt="SEVA" /></div>
+          </figure>
+        </article>
+
+        <!-- 02 — Higher Education Consultant -->
+        <article class="xp-item" data-xp="1">
+          <div class="xp-body">
+            <div class="xp-period" data-i18n="exp.p2">2023 — Present</div>
+            <h2 class="xp-role" data-i18n="exp.r2">Higher Education Consultant <span class="at">at 17+ institutions</span></h2>
+            <ul class="xp-list">
+              <li data-i18n="exp.r2a"><strong>Lecturer across 17 business schools</strong> teaching BI, data analytics, digital marketing and brand strategy.</li>
+              <li data-i18n="exp.r2b">Instruction delivered at undergraduate, master and MBA levels, in both English and French.</li>
+              <li data-i18n="exp.r2c">Key institutions: <strong>Rennes School of Business, INSEEC, Paris-Saclay, IAE, EM Normandie</strong> and others.</li>
+              <li data-i18n="exp.r2d"><strong>Master's thesis supervisor for 30+ students</strong> on AI, machine learning and digital transformation.</li>
+              <li data-i18n="exp.r2e">Recurring jury member for graduating projects and bachelor's dissertations.</li>
+            </ul>
+          </div>
+          <figure class="xp-figure">
+            <div class="xp-logos wall">
+              <img src="assets/logos-t/rennes.png" alt="Rennes School of Business" />
+              <img src="assets/logos-t/inseec.png" alt="INSEEC" />
+              <img src="assets/logos-t/em-normandie.png" alt="EM Normandie" />
+              <img src="assets/logos-t/paris-saclay.png" alt="Université Paris-Saclay" />
+              <img src="assets/logos-t/iae-lille.png" alt="IAE Lille" />
+              <img src="assets/logos-t/idrac.png" alt="IDRAC Business School" />
+              <img src="assets/logos-t/gema.png" alt="GEMA Business School" />
+              <img src="assets/logos-t/ifag.png" alt="IFAG" />
+              <img src="assets/logos-t/esc-amiens.png" alt="ESC Amiens" />
+              <img src="assets/logos-t/amos.png" alt="AMOS" />
+              <img src="assets/logos-t/cmh.png" alt="CMH" />
+              <img src="assets/logos-t/eidm.png" alt="EIDM Fashion Business School" />
+              <img src="assets/logos-t/iscom.png" alt="ISCOM" />
+              <img src="assets/logos-t/ilci.png" alt="ILCI Business School" />
+              <img src="assets/logos-t/ferrieres.png" alt="École Ferrières" />
+              <img src="assets/logos-t/icd.png" alt="ICD Business School" />
+            </div>
+          </figure>
+        </article>
+
+        <!-- 03 — AVIV Group -->
+        <article class="xp-item" data-xp="2">
+          <div class="xp-body">
+            <div class="xp-period" data-i18n="exp.p3">2022 — 2023</div>
+            <h2 class="xp-role" data-i18n="exp.r3">Market Researcher <span class="at">at AVIV Group</span></h2>
+            <ul class="xp-list">
+              <li data-i18n="exp.r3a"><strong>Extracted and analysed data via SQL</strong> (internal databases) and built <strong>Power BI dashboards</strong> to track brand image and user profiling for the AVIV Group (Meilleurs Agents, SeLoger) — covering multiple market segments across France.</li>
+              <li data-i18n="exp.r3b">Conducted <strong>quantitative and qualitative market research</strong> in collaboration with the Brand, Product and Operations teams, delivering insights as visual Power BI reports presented in steering committees.</li>
+              <li data-i18n="exp.r3c">Formulated <strong>data-driven operational recommendations</strong>, contributing to the optimisation of the group's positioning strategy and improved cross-team decision-making.</li>
+            </ul>
+          </div>
+          <figure class="xp-figure">
+            <div class="xp-logos"><img class="big" src="assets/logos-t/aviv.png" alt="AVIV Group" /></div>
+          </figure>
+        </article>
+
+        <!-- 04 — Helvetia -->
+        <article class="xp-item" data-xp="3">
+          <div class="xp-body">
+            <div class="xp-period" data-i18n="exp.p4">2021 — 2022</div>
+            <h2 class="xp-role" data-i18n="exp.r4">Market Research Analyst <span class="at">at Helvetia</span></h2>
+            <ul class="xp-list">
+              <li data-i18n="exp.r4a">Contributed to the creation of Helvetia's official <strong>“Connecter” platform</strong>.</li>
+              <li data-i18n="exp.r4b">Conducted <strong>in-depth market research on the European education sector</strong>, presenting findings via Microsoft Power BI.</li>
+              <li data-i18n="exp.r4c">Managed client feedback and helped resolve software issues, contributing to a <strong>16% increase in sales</strong>.</li>
+            </ul>
+          </div>
+          <figure class="xp-figure">
+            <div class="xp-logos"><img class="big" src="assets/logos-t/helvetia.png" alt="Helvetia" /></div>
+          </figure>
+        </article>
+
+      </div>
+
+      <div class="xp-rail">
+        <div class="xp-ticks" role="group" aria-label="Jump to role">
+          <button type="button" class="xp-tick is-active" data-goto="0" aria-label="Role 1 of 4: Founder, SEVA, 2024">2024</button>
+          <button type="button" class="xp-tick" data-goto="1" aria-label="Role 2 of 4: Higher Education Consultant, 2023">2023</button>
+          <button type="button" class="xp-tick" data-goto="2" aria-label="Role 3 of 4: Market Researcher, AVIV Group, 2022">2022</button>
+          <button type="button" class="xp-tick" data-goto="3" aria-label="Role 4 of 4: Market Research Analyst, Helvetia, 2021">2021</button>
+        </div>
+        <div class="xp-bar" aria-hidden="true"><span></span></div>
+        <div class="xp-count" aria-hidden="true"><b data-xp-cur>01</b> / 04</div>
+      </div>
+
+    </div>
+  </section>
+</main>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="wrap contact-grid">
+    <div class="reveal">
+      <h2 data-i18n="contact.title">Let's discuss the<br /><em>future of learning.</em></h2>
+      <div class="contact-socials">
+        <a class="cs" href="https://www.linkedin.com/in/parv-kaur-dtn-education-a40706145/" target="_blank" rel="noopener"><span class="cs-label">LinkedIn</span><span class="cs-arrow" aria-hidden="true">↗</span></a>
+        <a class="cs" href="mailto:parvk1398@gmail.com"><span class="cs-label" data-i18n="contact.email">Email</span><span class="cs-arrow" aria-hidden="true">↗</span></a>
+        <a class="cs" href="https://calendar.app.google/xvNf4ekBUhsXnGnc7" target="_blank" rel="noopener"><span class="cs-label" data-i18n="contact.calendly">Schedule a call</span><span class="cs-arrow" aria-hidden="true">↗</span></a>
+      </div>
+    </div>
+    <form class="form reveal" data-contact>
+      <div class="field"><label data-i18n="form.name">Name</label><input type="text" required data-i18n-ph="form.name.ph" placeholder="Your name" /></div>
+      <div class="field"><label data-i18n="form.email">Email address</label><input type="email" required data-i18n-ph="form.email.ph" placeholder="you@institution.com" /></div>
+      <div class="field"><label data-i18n="form.msg">Message</label><textarea required data-i18n-ph="form.msg.ph" placeholder="How can I help your programme?"></textarea></div>
+      <button class="btn btn-primary" type="submit" style="align-self:flex-start"><span data-i18n="form.send">Send message</span><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+    </form>
+  </div>
+  <div class="footer-bar">
+    <div class="footer-bar-inner">
+      <div class="footer-bar-top">
+        <div>
+          <div class="brand"><b>PK</b> <span>|</span> Parv Kaur</div>
+          <div class="footer-copy">© 2026 Parv Kaur. All rights reserved.</div>
+        </div>
+      </div>
+      <div class="footer-legal">
+        <p data-i18n="footer.gdpr">In accordance with the GDPR and the French Loi Informatique et Libertés of 6 January 1978 (as amended), you have the right to access, rectify, port and erase any personal data you provide via this site, and to restrict or object to its processing. To exercise these rights or for any privacy enquiry, contact <a href="mailto:parvk1398@gmail.com">parvk1398@gmail.com</a>. No data submitted through the contact form is shared with third parties. This site does not use tracking cookies.</p>
+        <p class="footer-legal-links"><a href="#" data-i18n="footer.mentions">Legal notice</a> · <a href="#" data-i18n="footer.privacy">Privacy policy</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+window.I18N_FR = {
+  "nav.home":"Profil","nav.about":"L'histoire","nav.teaching":"En classe","nav.voices":"Échos de la classe","nav.experience":"Parcours","nav.cta":"Me contacter",
+  "footer.gdpr":"Conformément au Règlement Général sur la Protection des Données (RGPD) et à la loi Informatique et Libertés du 6 janvier 1978 modifiée, vous disposez d'un droit d'accès, de rectification, de portabilité et d'effacement de vos données personnelles communiquées via ce site, ainsi que d'un droit à la limitation et d'opposition au traitement. Pour exercer ces droits ou pour toute question relative à la confidentialité, contactez <a href='mailto:parvk1398@gmail.com'>parvk1398@gmail.com</a>. Aucune donnée transmise via le formulaire de contact n'est partagée avec des tiers. Ce site n'utilise pas de cookies de suivi.","footer.mentions":"Mentions légales","footer.privacy":"Politique de confidentialité","contact.calendly":"Réserver un appel",
+  "exp.title":"Parcours","about.cv":"Télécharger le CV complet","exp.p1":"2024 — Présent","exp.p2":"2023 — Présent","exp.p3":"2022 — 2023","exp.p4":"2021 — 2022",
+  "exp.r1":"Fondatrice <span class=\"at\">· Solidarité et Engagement pour un Avenir (SEVA)</span>",
+  "exp.r1a":"Partenariat direct avec l'<strong>ambassade d'Inde en France</strong> pour concevoir des événements et ateliers aidant les étudiants internationaux à relever les défis culturels et linguistiques.",
+  "exp.r1b":"Construction de parcours professionnels et accompagnement des étudiants vers l'emploi en France, avec un soutien linguistique et culturel.",
+  "exp.r1c":"<strong>Opportunités de réseautage dans l'industrie du luxe</strong> et ateliers spécialisés.",
+  "exp.r1d":"Conception et animation de bootcamps techniques en <strong>Power BI et SQL</strong> pour former les étudiants aux outils de données et faciliter leur entrée sur le marché du travail français.",
+  "exp.r2":"Consultante en enseignement supérieur <span class=\"at\">dans plus de 17 établissements</span>",
+  "exp.r2a":"<strong>Enseignante dans 17 écoles de commerce</strong> en BI, data analytics, marketing digital et stratégie de marque.",
+  "exp.r2b":"Cours dispensés aux niveaux licence, master et MBA, en anglais et en français.",
+  "exp.r2c":"Établissements clés : <strong>Rennes School of Business, INSEEC, Paris-Saclay, IAE, EM Normandie</strong> et d'autres.",
+  "exp.r2d":"<strong>Directrice de mémoires pour plus de 30 étudiants</strong> sur l'IA, le machine learning et la transformation numérique.",
+  "exp.r2e":"Membre régulier de jurys pour les projets de fin d'études et les mémoires de licence.",
+  "exp.r3":"Chargée d'études de marché <span class=\"at\">chez AVIV Group</span>",
+  "exp.r3a":"<strong>Extraction et analyse de données via SQL</strong> (bases de données internes) et conception de <strong>tableaux de bord Power BI</strong> pour le suivi de l'image de marque et le profilage des utilisateurs du Groupe AVIV (Meilleurs Agents, SeLoger) — couvrant plusieurs segments de marché sur le territoire français.",
+  "exp.r3b":"Conduite d'<strong>études de marché quantitatives et qualitatives</strong> en collaboration avec les équipes Marque, Produit et Opérations, avec restitution des insights sous forme de rapports visuels Power BI présentés en comité de pilotage.",
+  "exp.r3c":"Formulation de <strong>recommandations opérationnelles fondées sur l'analyse de données</strong>, contribuant à l'optimisation de la stratégie de positionnement du groupe et à l'amélioration de la prise de décision cross-équipes.",
+  "exp.r4":"Analyste d'études de marché <span class=\"at\">chez Helvetia</span>",
+  "exp.r4a":"Contribution à la création de la <strong>plateforme officielle « Connecter »</strong> d'Helvetia.",
+  "exp.r4b":"Réalisation d'une <strong>étude de marché approfondie sur le secteur éducatif en Europe</strong>, avec présentation des résultats via Microsoft Power BI.",
+  "exp.r4c":"Gestion des retours clients et participation à la résolution de problèmes logiciels, contribuant à une <strong>augmentation des ventes de 16 %</strong>.",
+  "contact.title":"Parlons de<br /><em>l'avenir de l'apprentissage.</em>","contact.email":"E-mail",
+  "form.name":"Nom","form.email":"Adresse e-mail","form.msg":"Message","form.send":"Envoyer le message",
+  "form.name.ph":"Votre nom","form.email.ph":"vous@etablissement.com","form.msg.ph":"Comment puis-je aider votre programme ?"
+};
+</script>
+<script src="js/site.js"></script>
+
+<!-- Scroll-pinned role sequence. Native scroll (no scroll-jacking); falls back
+     to the static list on narrow viewports or when prefers-reduced-motion is set. -->
+<script>
+(function () {
+  var scroller = document.querySelector('[data-exp-scroll]');
+  if (!scroller) return;
+
+  var items   = [].slice.call(scroller.querySelectorAll('.xp-item'));
+  var ticks   = [].slice.call(scroller.querySelectorAll('.xp-tick'));
+  var barFill = scroller.querySelector('.xp-bar span');
+  var counter = scroller.querySelector('[data-xp-cur]');
+  var n = items.length;
+  if (!n) return;
+
+  var wideMQ    = window.matchMedia('(min-width:761px)');
+  var tallMQ    = window.matchMedia('(min-height:720px)');
+  var reduceMQ  = window.matchMedia('(prefers-reduced-motion:reduce)');
+  var navEl  = document.querySelector('.nav');
+  var pinned = false;
+  var current = -1;
+  var ticking = false;
+  var navH = 0;
+
+  function measureNav() {
+    navH = navEl ? navEl.offsetHeight : 0;
+    scroller.style.setProperty('--nav-h', navH + 'px');
+  }
+
+  function pad(i){ return (i + 1 < 10 ? '0' : '') + (i + 1); }
+
+  function setIndex(i) {
+    if (i < 0) i = 0; else if (i > n - 1) i = n - 1;
+    if (i === current) return;
+    current = i;
+    items.forEach(function (el, idx) {
+      el.classList.toggle('is-active', idx === i);
+      el.classList.toggle('is-past', idx < i);
+      el.setAttribute('aria-hidden', idx === i ? 'false' : 'true');
+    });
+    ticks.forEach(function (t, idx) { t.classList.toggle('is-active', idx === i); });
+    if (counter) counter.textContent = pad(i);
+  }
+
+  function onScroll() {
+    if (!pinned) return;
+    var vh = window.innerHeight;
+    var total = scroller.offsetHeight - vh;      // scroll distance while pinned
+    // sticky pins at top:navH, so progress starts when the section top passes navH
+    var scrolled = Math.min(Math.max(navH - scroller.getBoundingClientRect().top, 0), total);
+    var progress = total > 0 ? scrolled / total : 0;
+    if (barFill) barFill.style.transform = 'scaleX(' + progress.toFixed(3) + ')';
+    // equal-width bands per role, so each one dwells the same amount of scroll
+    setIndex(Math.floor(progress * n));
+  }
+
+  function requestTick() {
+    if (ticking) return;
+    ticking = true;
+    window.requestAnimationFrame(function () { ticking = false; onScroll(); });
+  }
+
+  function gotoIndex(i) {
+    if (!pinned) { items[i] && items[i].scrollIntoView({ behavior: 'smooth', block: 'center' }); return; }
+    var vh = window.innerHeight;
+    var total = scroller.offsetHeight - vh;
+    var top = scroller.offsetTop - navH + (total * ((i + 0.5) / n));
+    window.scrollTo({ top: Math.round(top), behavior: 'smooth' });
+  }
+
+  function enable() {
+    if (pinned) return;
+    pinned = true;
+    measureNav();
+    scroller.classList.add('is-pinned');
+    current = -1;
+    setIndex(0);
+    if (barFill) barFill.style.transform = 'scaleX(0)';
+    window.addEventListener('scroll', requestTick, { passive: true });
+    window.addEventListener('resize', onResize, { passive: true });
+    requestTick();
+  }
+
+  function disable() {
+    if (!pinned && current !== -1) return;
+    pinned = false;
+    scroller.classList.remove('is-pinned');
+    window.removeEventListener('scroll', requestTick);
+    window.removeEventListener('resize', onResize);
+    items.forEach(function (el) {
+      el.classList.remove('is-active', 'is-past');
+      el.removeAttribute('aria-hidden');
+    });
+    ticks.forEach(function (t) { t.classList.remove('is-active'); });
+    current = 0;
+  }
+
+  function onResize() { measureNav(); requestTick(); }
+
+  function decide() {
+    if (wideMQ.matches && tallMQ.matches && !reduceMQ.matches) enable();
+    else disable();
+  }
+
+  ticks.forEach(function (t) {
+    t.addEventListener('click', function () { gotoIndex(parseInt(t.getAttribute('data-goto'), 10) || 0); });
+  });
+
+  decide();
+  (wideMQ.addEventListener ? wideMQ.addEventListener('change', decide) : wideMQ.addListener(decide));
+  (tallMQ.addEventListener ? tallMQ.addEventListener('change', decide) : tallMQ.addListener(decide));
+  (reduceMQ.addEventListener ? reduceMQ.addEventListener('change', decide) : reduceMQ.addListener(decide));
+})();
+</script>
+</body>
+</html>
