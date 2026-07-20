@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Student Voices — Parv Kaur</title>
+<meta name="description" content="Feedback from students across French business schools — on data analytics, organisational behaviour and digital marketing." />
+<link rel="stylesheet" href="css/style.css" />
+<style>
+.voices-head{text-align:center;max-width:42ch;margin:0 auto;}
+.voices-head .display{margin-bottom:18px;}
+.voices-head .lead{margin:0 auto;}
+
+.vfilters{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:clamp(36px,5vw,52px);}
+.vpill{
+  font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+  border:1px solid var(--hairline);padding:9px 16px;color:var(--ink-soft);transition:.18s;
+}
+.vpill:hover{border-color:var(--ink-strong);color:var(--ink-strong);}
+.vpill.on{background:var(--ink-strong);border-color:var(--ink-strong);color:#fff;}
+
+/* ============================================================
+   BOOK OF VOICES — scroll-driven page-turning book
+   ============================================================ */
+.book-scroll{position:relative;margin-top:clamp(30px,4vw,52px);}
+.book-stage{position:sticky;top:var(--nav-h,0px);height:calc(100vh - var(--nav-h,0px));
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;overflow:hidden;}
+
+.book{position:relative;perspective:2400px;}
+.book-spread{position:relative;transform-style:preserve-3d;transform:rotateX(7deg);
+  filter:drop-shadow(0 54px 70px rgba(8,11,22,.32));}
+/* stacked paper edges give the book physical thickness */
+.book-edge{position:absolute;pointer-events:none;z-index:0;
+  background:repeating-linear-gradient(90deg,#f0e9d9 0 2px,#dcd2ba 2px 3px);}
+.book-edge.r{top:5px;bottom:1px;width:13px;right:-12px;transform:skewY(1.6deg);}
+.book-edge.l{top:5px;bottom:1px;width:13px;left:-12px;transform:skewY(-1.6deg);}
+.book-edge.b{left:5px;right:5px;height:11px;bottom:-10px;
+  background:repeating-linear-gradient(180deg,#f0e9d9 0 2px,#dcd2ba 2px 3px);transform:skewX(-40deg) scaleX(.99);transform-origin:left top;}
+.book-spread.is-single .book-edge.l{display:none;}
+/* back board so a closed / single book has depth behind the leaves;
+   clipped from the left via --bl while the book is closed */
+.book-spread::before{content:"";position:absolute;top:-6px;bottom:-6px;left:-6px;right:-6px;
+  background:var(--surface-tint);z-index:0;clip-path:inset(0 0 0 var(--bl,0px));}
+
+.leaf{position:absolute;top:0;height:100%;width:var(--pw);transform-style:preserve-3d;
+  transform-origin:left center;will-change:transform;transition:none;}
+.leaf-face{position:absolute;inset:0;backface-visibility:hidden;
+  background:linear-gradient(180deg,#fbf9f3,#f6f2e9);
+  display:flex;flex-direction:column;}
+.leaf-front{transform:translateZ(0.6px);}
+.leaf-back{transform:rotateY(180deg) translateZ(0.6px);}
+/* spine shading + paper grain + soft page edge */
+.leaf-front{box-shadow:inset 18px 0 34px -22px rgba(80,60,25,.5);}
+.leaf-back{box-shadow:inset -18px 0 34px -22px rgba(80,60,25,.5);}
+.leaf-face::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.5;
+  background-image:radial-gradient(rgba(120,95,45,.06) 1px,transparent 1px);background-size:3px 3px;}
+/* darker reverse side of the sheet */
+.leaf-back{background:linear-gradient(180deg,#f1ebdd,#e7e0ce);}
+/* curvature curl band — a soft cylindrical crest whose shading is set per frame
+   in JS so it travels from the outer edge inward toward the spine */
+.leaf-curl{position:absolute;inset:0;pointer-events:none;opacity:0;z-index:2;mix-blend-mode:normal;}
+/* narrow highlight along the moving (leading) edge */
+.leaf-hi{position:absolute;top:0;bottom:0;right:0;width:16%;pointer-events:none;opacity:0;z-index:3;
+  background:linear-gradient(90deg,rgba(255,255,255,0),rgba(255,255,255,.55));}
+/* soft shadow at the spine */
+.spine-shadow{position:absolute;top:-4px;bottom:-4px;left:50%;width:44px;transform:translateX(-50%);
+  background:radial-gradient(closest-side,rgba(60,45,15,.24),transparent);z-index:0;pointer-events:none;}
+.book-spread.is-single .spine-shadow{left:0;transform:none;width:26px;}
+
+/* moving shadow cast by the lifted page onto the sheet beneath it */
+.book-cast{position:absolute;top:0;height:100%;pointer-events:none;opacity:0;
+  background:linear-gradient(90deg,rgba(30,22,8,.5),rgba(30,22,8,0) 72%);}
+
+/* closing statement page */
+.book-closing{align-items:center;justify-content:center;text-align:center;}
+.book-closing .closing-q{font-family:var(--serif);font-style:italic;font-weight:300;
+  font-size:clamp(20px,2.5vw,31px);line-height:1.5;color:var(--ink-strong);max-width:20ch;padding:44px;z-index:1;}
+
+/* static title page (left page of the opening spread) */
+.title-board{position:absolute;top:0;left:0;height:100%;width:var(--pw);z-index:0;
+  background:linear-gradient(160deg,#f3ead9,#e9dfc8);
+  display:flex;align-items:center;justify-content:center;text-align:center;
+  box-shadow:inset -18px 0 34px -22px rgba(80,60,25,.5);}
+.title-board .cover-inner{display:flex;flex-direction:column;align-items:center;gap:20px;padding:40px;z-index:1;}
+.title-board .cover-title{font-family:var(--serif);font-weight:300;font-size:clamp(30px,4vw,52px);line-height:1.05;color:var(--ink-strong);letter-spacing:-.01em;}
+.title-board .cover-title em{font-style:italic;color:var(--accent);}
+.title-board .cover-rule{width:46px;height:1px;background:var(--accent-deep);}
+.title-board::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.5;
+  background-image:radial-gradient(rgba(120,95,45,.06) 1px,transparent 1px);background-size:3px 3px;}
+.book-spread.is-single .title-board{display:none;}
+
+.book-page{position:relative;z-index:1;flex:1 1 auto;display:flex;flex-direction:column;
+  padding:clamp(26px,3.4vw,44px) clamp(24px,3vw,40px);gap:18px;}
+.book-page .vrev{flex:1 1 0;display:flex;align-items:center;gap:clamp(14px,1.8vw,26px);min-height:0;}
+.book-page .vrev blockquote{margin:0;font-family:var(--serif);font-style:italic;
+  font-size:clamp(14.5px,1.35vw,17px);line-height:1.62;color:var(--ink);}
+.book-page .vrev-logo{flex:none;width:clamp(48px,6vw,74px);display:flex;align-items:center;justify-content:center;}
+.book-page .vrev-logo img{max-width:100%;max-height:56px;width:auto;height:auto;object-fit:contain;
+  opacity:.72;mix-blend-mode:multiply;}
+.book-page .vdivide{height:1px;background:linear-gradient(90deg,transparent,rgba(120,95,45,.28),transparent);flex:none;}
+.book-page.is-single .vrev{justify-content:center;}
+.book-folio{position:absolute;bottom:14px;left:0;right:0;text-align:center;
+  font-family:var(--mono);font-size:9px;letter-spacing:.18em;color:var(--ink-faint);z-index:1;}
+
+/* cover — deep ink cloth, ochre frame, serif title (matches the dark contact band) */
+.book-cover{align-items:center;justify-content:center;text-align:center;
+  background:linear-gradient(155deg,#1d2130,#11141f 72%);
+  box-shadow:inset 24px 0 44px -24px rgba(0,0,0,.9);}
+.book-cover::before{content:"";position:absolute;inset:14px;border:1px solid rgba(176,121,42,.5);pointer-events:none;z-index:1;}
+.book-cover .cover-inner{padding:40px;display:flex;flex-direction:column;align-items:center;gap:22px;z-index:1;}
+.book-cover .cover-kicker{font-family:var(--mono);font-size:10px;letter-spacing:.32em;text-transform:uppercase;color:#9a9cab;}
+.book-cover .cover-title{font-family:var(--serif);font-weight:300;font-size:clamp(32px,4.4vw,54px);line-height:1.08;color:#eff0fb;letter-spacing:-.01em;}
+.book-cover .cover-title em{font-style:italic;color:var(--accent);}
+.book-cover .cover-rule{width:46px;height:1px;background:var(--accent);}
+.book-cover .cover-author{font-family:var(--mono);font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:#9a9cab;margin-top:8px;}
+.book-cover .cover-hint{font-family:var(--mono);font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:#5e6173;}
+.book-blank{background:linear-gradient(180deg,#f6f2e9,#efe9dc);}
+/* paper base under the right-hand stack (inside back cover) */
+.base-board{position:absolute;top:0;right:0;height:100%;width:var(--pw);z-index:0;
+  background:linear-gradient(180deg,#f6f2e9,#efe9dc);box-shadow:inset 18px 0 34px -22px rgba(80,60,25,.5);}
+.book-spread.is-single .base-board{left:0;right:auto;}
+/* closing reflection — revealed only after the book has shut, on the back of the cover */
+.book-quote{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  opacity:0;pointer-events:none;z-index:8;}
+.quote-cover{position:relative;display:flex;align-items:center;justify-content:center;text-align:center;
+  background:linear-gradient(155deg,#1d2130,#11141f 72%);transform:rotateX(7deg);
+  box-shadow:0 46px 70px -30px rgba(8,11,22,.55);}
+.quote-cover::before{content:"";position:absolute;inset:14px;border:1px solid rgba(176,121,42,.5);pointer-events:none;}
+.quote-cover .closing-q{font-family:var(--serif);font-style:italic;font-weight:300;
+  font-size:clamp(22px,2.7vw,34px);line-height:1.5;color:#eff0fb;max-width:22ch;padding:44px;z-index:1;}
+
+/* controls */
+.book-ui{display:flex;align-items:center;gap:18px;z-index:5;}
+.book-btn{width:44px;height:44px;border:1px solid var(--ink-strong);background:var(--surface);color:var(--ink-strong);
+  display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background .3s,color .3s,opacity .25s;}
+.book-btn:hover{background:var(--ink-strong);color:#fff;}
+.book-btn:focus-visible{outline:2px solid var(--accent-deep);outline-offset:3px;}
+.book-btn svg{width:16px;height:16px;}
+.book-count{font-family:var(--mono);font-size:11px;letter-spacing:.16em;color:var(--ink-faint);min-width:64px;text-align:center;}
+.book-count b{color:var(--accent-deep);font-weight:500;}
+.book-hint-scroll{font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint);}
+
+/* reduced-motion / static fallback: plain stacked paper sheets */
+.book-scroll.is-static{margin-top:clamp(30px,4vw,52px);}
+.book-scroll.is-static .book-stage{position:static;height:auto;display:block;overflow:visible;}
+.book-scroll.is-static .book{perspective:none;width:100%;max-width:760px;margin:0 auto;}
+.book-scroll.is-static .vsheet{background:linear-gradient(180deg,#fbf9f3,#f6f2e9);
+  box-shadow:0 18px 40px -30px rgba(8,11,22,.4);margin-bottom:26px;padding:clamp(28px,4vw,46px);
+  display:flex;flex-direction:column;gap:20px;position:relative;}
+.book-scroll.is-static .vsheet::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.5;
+  background-image:radial-gradient(rgba(120,95,45,.06) 1px,transparent 1px);background-size:3px 3px;}
+.book-scroll.is-static .vrev{display:flex;align-items:center;gap:22px;}
+.book-scroll.is-static .vrev blockquote{margin:0;font-family:var(--serif);font-style:italic;font-size:16px;line-height:1.62;color:var(--ink);}
+.book-scroll.is-static .vrev-logo img{max-width:74px;max-height:52px;opacity:.72;mix-blend-mode:multiply;}
+.book-scroll.is-static .vdivide{height:1px;background:linear-gradient(90deg,transparent,rgba(120,95,45,.28),transparent);}
+.book-scroll.is-static .book-stage>.book-ui{display:none;}
+</style>
+</head>
+<body data-page="voices">
+
+<header class="nav">
+  <div class="nav-inner">
+    <a class="brand" href="index.html"><img src="assets/parv-logo.png" alt="Parv Kaur" /></a>
+    <nav class="nav-links">
+      <a href="index.html" data-nav="home" data-i18n="nav.home">Profile</a>
+      <a href="experience.html" data-nav="experience" data-i18n="nav.experience">Experience</a>
+      <a href="teaching.html" data-nav="teaching" data-i18n="nav.teaching">In the Classroom</a>
+      <a href="voices.html" data-nav="voices" data-i18n="nav.voices">From the Classroom</a>
+      <a href="about.html" data-nav="about" data-i18n="nav.about">The Story</a>
+      <a class="nav-extra" href="https://www.linkedin.com/in/parv-kaur-dtn-education-a40706145/" target="_blank" rel="noopener">LinkedIn ↗</a>
+      <a class="nav-extra" href="assets/Parv_KAUR_Resume.pdf" download>Download CV ↓</a>
+    </nav>
+    <div class="nav-right">
+      <div class="nav-icons">
+        <a class="nav-icon" href="https://www.linkedin.com/in/parv-kaur-dtn-education-a40706145/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.2 8h4.6v14H.2V8zm7.2 0h4.4v1.92h.06c.61-1.16 2.1-2.38 4.32-2.38 4.62 0 5.47 3.04 5.47 7v7.46h-4.6v-6.61c0-1.58-.03-3.61-2.2-3.61-2.2 0-2.54 1.72-2.54 3.5V22H7.4V8z"/></svg></a>
+        <a class="nav-icon" href="assets/Parv_KAUR_Resume.pdf" download aria-label="Download CV"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 4v12M6 11l6 6 6-6"/></svg></a>
+      </div>
+      <div class="lang" role="group" aria-label="Language">
+        <button data-lang="en">EN</button><span class="sep">/</span><button data-lang="fr">FR</button>
+      </div>
+      <a class="btn btn-primary" href="index.html#contact"><span class="nav-cta-text" data-i18n="nav.cta">Get in touch</span><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <button class="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap page-head section">
+  <div class="voices-head reveal">
+    <div class="overline" style="margin-bottom:22px"><span data-i18n="voices.kicker">Student Feedback</span></div>
+    <h1 class="display" data-i18n="voices.title">Student <em>Voices</em></h1>
+    <p class="lead" data-i18n="voices.lead">Unedited feedback from students across institutions and disciplines.</p>
+  </div>
+
+  <div class="vfilters reveal" id="vfilters">
+    <button class="vpill on" data-cat="all" data-i18n="teach.all">All</button>
+    <button class="vpill" data-cat="bi">BI &amp; Data Analytics</button>
+    <button class="vpill" data-cat="ob" data-i18n="voices.ob">OB &amp; Talent Management</button>
+    <button class="vpill" data-cat="mkt" data-i18n="voices.mkt">Digital Marketing &amp; Brand</button>
+  </div>
+
+  <div class="book-scroll" id="bookScroll">
+    <div class="book-stage">
+      <div class="book"><div class="book-spread" id="bookSpread"></div></div>
+      <div class="book-ui">
+        <button class="book-btn book-prev" id="bookPrev" aria-label="Previous page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M15 5l-7 7 7 7"/></svg></button>
+        <span class="book-count" id="bookCount" aria-live="polite"><b>01</b> / 01</span>
+        <button class="book-btn book-next" id="bookNext" aria-label="Next page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M9 5l7 7-7 7"/></svg></button>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="wrap contact-grid">
+    <div class="reveal">
+      <h2 data-i18n="contact.title">Let's discuss the<br /><em>future of learning.</em></h2>
+      <div class="contact-socials">
+        <a class="cs" href="https://www.linkedin.com/in/parv-kaur-dtn-education-a40706145/" target="_blank" rel="noopener"><span class="cs-label">LinkedIn</span><span class="cs-arrow" aria-hidden="true">↗</span></a>
+        <a class="cs" href="mailto:parvk1398@gmail.com"><span class="cs-label" data-i18n="contact.email">Email</span><span class="cs-arrow" aria-hidden="true">↗</span></a>
+        <a class="cs" href="https://calendar.app.google/xvNf4ekBUhsXnGnc7" target="_blank" rel="noopener"><span class="cs-label" data-i18n="contact.calendly">Schedule a call</span><span class="cs-arrow" aria-hidden="true">↗</span></a>
+      </div>
+    </div>
+    <form class="form reveal" data-contact>
+      <div class="field"><label data-i18n="form.name">Name</label><input type="text" required data-i18n-ph="form.name.ph" placeholder="Your name" /></div>
+      <div class="field"><label data-i18n="form.email">Email address</label><input type="email" required data-i18n-ph="form.email.ph" placeholder="you@institution.com" /></div>
+      <div class="field"><label data-i18n="form.msg">Message</label><textarea required data-i18n-ph="form.msg.ph" placeholder="How can I help your programme?"></textarea></div>
+      <button class="btn btn-primary" type="submit" style="align-self:flex-start"><span data-i18n="form.send">Send message</span><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+    </form>
+  </div>
+  <div class="footer-bar">
+    <div class="footer-bar-inner">
+      <div class="footer-bar-top">
+        <div>
+          <div class="brand"><b>PK</b> <span>|</span> Parv Kaur</div>
+          <div class="footer-copy">© 2026 Parv Kaur. All rights reserved.</div>
+        </div>
+      </div>
+      <div class="footer-legal">
+        <p data-i18n="footer.gdpr">In accordance with the GDPR and the French Loi Informatique et Libertés of 6 January 1978 (as amended), you have the right to access, rectify, port and erase any personal data you provide via this site, and to restrict or object to its processing. To exercise these rights or for any privacy enquiry, contact <a href="mailto:parvk1398@gmail.com">parvk1398@gmail.com</a>. No data submitted through the contact form is shared with third parties. This site does not use tracking cookies.</p>
+        <p class="footer-legal-links"><a href="#" data-i18n="footer.mentions">Legal notice</a> · <a href="#" data-i18n="footer.privacy">Privacy policy</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+window.I18N_FR = {
+  "nav.home":"Profil","nav.about":"L'histoire","nav.teaching":"En classe","nav.voices":"Échos de la classe","nav.experience":"Parcours","nav.cta":"Me contacter",
+  "footer.gdpr":"Conformément au Règlement Général sur la Protection des Données (RGPD) et à la loi Informatique et Libertés du 6 janvier 1978 modifiée, vous disposez d'un droit d'accès, de rectification, de portabilité et d'effacement de vos données personnelles communiquées via ce site, ainsi que d'un droit à la limitation et d'opposition au traitement. Pour exercer ces droits ou pour toute question relative à la confidentialité, contactez <a href='mailto:parvk1398@gmail.com'>parvk1398@gmail.com</a>. Aucune donnée transmise via le formulaire de contact n'est partagée avec des tiers. Ce site n'utilise pas de cookies de suivi.","footer.mentions":"Mentions légales","footer.privacy":"Politique de confidentialité","contact.calendly":"Réserver un appel",
+  "voices.kicker":"Retours d'étudiants","voices.title":"Paroles d'<em>étudiants</em>","voices.lead":"Retours bruts d'étudiants de divers établissements et disciplines.",
+  "teach.all":"Tous","voices.ob":"Comportement &amp; talents","voices.mkt":"Marketing digital &amp; marque",
+  "contact.title":"Parlons de<br /><em>l'avenir de l'apprentissage.</em>","contact.email":"E-mail",
+  "form.name":"Nom","form.email":"Adresse e-mail","form.msg":"Message","form.send":"Envoyer le message",
+  "form.name.ph":"Votre nom","form.email.ph":"vous@etablissement.com","form.msg.ph":"Comment puis-je aider votre programme ?"
+};
+
+var CAT = { bi:{l:"BI & Data", c:"#3a6ea5"}, ob:{l:"OB & Talent", c:"#3f7d56"}, mkt:{l:"Marketing & Brand", c:"#b0792a"} };
+var INST = { idrac:"IDRAC", "iae-lille":"IAE Lille", gema:"GEMA", "esc-amiens":"ESC Amiens", "paris-saclay":"Université Paris-Saclay", rennes:"Rennes School of Business", cmh:"CMH", ilci:"ILCI", iscom:"ISCOM", amos:"AMOS" };
+
+var REVIEWS = [
+  {cat:"bi", inst:"idrac", who:"Student, IDRAC Business School", q:"This is the first time I enjoy learning and doing Advanced Excel. You took your time explaining everything from A to Z, and re-explained whenever we needed. Thank you."},
+  {cat:"bi", inst:"iae-lille", who:"Student, IAE Lille", q:"Every class was very good — the teacher was very understanding and explained things to each and every one of us individually."},
+  {cat:"bi", inst:"gema", who:"Student, GEMA", q:"The course was amazing and really interesting. It was great to learn things that will help us in the future for our professional life. It was a pleasure to attend your class — I wish you all the best!"},
+  {cat:"bi", inst:"esc-amiens", who:"Student, ESC Amiens", q:"I really enjoyed the course. It wasn't the easiest one, but you always took the time to answer our questions and provide thorough explanations."},
+  {cat:"bi", inst:"paris-saclay", who:"Student, Université Paris-Saclay", q:"Thank you for the Excel and Tableau course. I really appreciated the structured approach you took in breaking down the concepts, making them both accessible and practical. The hands-on exercises were especially helpful, and I feel much more confident applying Excel in real-world scenarios."},
+  {cat:"ob", inst:"rennes", who:"Student, Rennes School of Business", q:"Ms. Kaur is very kind and clear in her comments. Her feedback is relevant and she is very patient with the students."},
+  {cat:"ob", inst:"cmh", who:"Student, CMH", q:"Openness and diversity — she handles every opinion and question really well. I also appreciated how energetic and animated the professor was."},
+  {cat:"ob", inst:"rennes", who:"Student, Rennes School of Business", q:"The teacher was very engaged in discussions with us. She's very approachable, and that made it easier to engage with the class."},
+  {cat:"ob", inst:"ilci", who:"Student, ILCI Business School", q:"The teacher is great, motivating, and knows her subject very well. She managed to capture my attention even when I didn't find the topic particularly interesting."},
+  {cat:"ob", inst:"rennes", who:"Student, Rennes School of Business", q:"Her excellent command of English and her use of games and other external resources served brilliantly as instructional materials."},
+  {cat:"mkt", inst:"iscom", who:"Student, ISCOM", q:"La prof est gentille, elle a une vraie pédagogie de travail. J'ai appris beaucoup de choses."},
+  {cat:"mkt", inst:"amos", who:"Student, AMOS", q:"You made me love marketing more! Your class is so fun — I can never get bored, since you always find ways to entertain while teaching. Thank you."},
+  {cat:"mkt", inst:"cmh", who:"Student, CMH", q:"Le cours était intéressant ! Et vous êtes très gentille et aimable. Merci :)"},
+  {cat:"mkt", inst:"gema", who:"Student, GEMA", q:"You are doing very well, keep going. I was very glad to have your point of view on these different subjects — I really learned something and it was very interesting!"},
+  {cat:"mkt", inst:"iscom", who:"Student, ISCOM", q:"It was amazing — I learned a lot from the course. Also, thank you for the advice on student life in France."}
+];
+
+(function(){
+  var scroll=document.getElementById('bookScroll');
+  var spread=document.getElementById('bookSpread');
+  var stage=scroll.querySelector('.book-stage');
+  var prevBtn=document.getElementById('bookPrev');
+  var nextBtn=document.getElementById('bookNext');
+  var countEl=document.getElementById('bookCount');
+  var reduceMQ=window.matchMedia('(prefers-reduced-motion:reduce)');
+  var navEl=document.querySelector('.nav');
+
+  var cur='all';
+  var mode='', leaves=[], leafEls=[], L=0, P=0, PT=0, R=1, TT=2, castEl=null, curPw=0, quoteEl=null, bookEl=null, edgeL=null, edgeB=null;
+  // discrete page-turn state machine (one gesture = one page)
+  var IDX=0, MAX=0, stops=[], state='idle', animID=0, animWatch=0;
+  var wheelBound=false, locked=false, released=false, wheelAccum=0, lastWheel=0;
+
+  function navH(){ return navEl?navEl.offsetHeight:0; }
+  function pad2(n){ return (n<10?'0':'')+n; }
+  function reviewHTML(r){
+    var logo = INST[r.inst] ? '<span class="vrev-logo"><img src="assets/logos-t/'+r.inst+'.png" alt="'+INST[r.inst]+'" /></span>' : '';
+    return '<div class="vrev"><blockquote>'+r.q+'</blockquote>'+logo+'</div>';
+  }
+  function pageHTML(pg){
+    var single = !pg.b;
+    return '<div class="book-page'+(single?' is-single':'')+'">'+
+      reviewHTML(pg.a)+
+      (pg.b?'<div class="vdivide"></div>'+reviewHTML(pg.b):'')+
+      '<div class="book-folio">'+pad2(pg.n)+' / '+pad2(PT)+'</div></div>';
+  }
+  function closingHTML(pg){
+    return '<div class="closing-q">“Teach with clarity. Leave room for curiosity.”</div>'+
+      '<div class="book-folio">'+pad2(pg.n)+' / '+pad2(PT)+'</div>';
+  }
+  function coverHTML(){
+    return '<div class="cover-inner"><div class="cover-kicker">Student Feedback</div>'+
+      '<h2 class="cover-title">Book of <em>Voices</em></h2><div class="cover-rule"></div>'+
+      '<div class="cover-author">Parv Kaur</div>'+
+      '<div class="cover-hint">'+ (mode==='single'?'Swipe to open':'Scroll to open') +'</div></div>';
+  }
+  function faceEl(face,side){
+    var el=document.createElement('div'); el.className='leaf-face '+(side==='front'?'leaf-front':'leaf-back');
+    if(face.type==='cover'){ el.classList.add('book-cover'); el.innerHTML=coverHTML(); }
+    else if(face.type==='page'){ el.innerHTML=pageHTML(face); }
+    else if(face.type==='closing'){ el.classList.add('book-closing'); el.innerHTML=closingHTML(face); }
+    else { el.classList.add('book-blank'); }
+    return el;
+  }
+
+  function filtered(){ return REVIEWS.filter(function(r){ return cur==='all'||r.cat===cur; }); }
+
+  function buildFaces(list){
+    var faces=[{type:'cover'}]; var pn=0;
+    for(var i=0;i<list.length;i+=2){ pn++; faces.push({type:'page', a:list[i], b:list[i+1]||null, n:pn}); }
+    faces.push({type:'closing', n:pn+1});
+    return faces;
+  }
+
+  // ---------- STATIC (reduced motion) ----------
+  function buildStatic(){
+    scroll.classList.add('is-static'); scroll.style.height='';
+    var list=filtered(); P=Math.ceil(list.length/2); PT=P+1;
+    var faces=buildFaces(list);
+    var host=spread; host.className=''; host.removeAttribute('style'); host.innerHTML='';
+    var tp=document.createElement('div'); tp.className='vsheet'; tp.innerHTML='<div class="book-closing" style="padding:30px 0"><div class="cover-inner"><h2 class="cover-title" style="font-family:var(--serif);font-weight:300;font-size:clamp(28px,4vw,46px);color:var(--ink-strong)">Book of <em style="font-style:italic;color:var(--accent)">Voices</em></h2></div></div>';
+    host.appendChild(tp);
+    faces.forEach(function(f){
+      if(f.type==='cover') return;
+      var s=document.createElement('div'); s.className='vsheet';
+      s.innerHTML = f.type==='closing' ? '<div class="book-closing" style="padding:20px 0">'+closingHTML(f)+'</div>' : pageHTML(f);
+      host.appendChild(s);
+    });
+    countEl.parentNode.style.display='none';
+  }
+
+  // ---------- ANIMATED BOOK ----------
+  function setDims(){
+    var vw=window.innerWidth, pw, bh;
+    if(mode==='single'){ pw=Math.min(vw-36,460); bh=Math.min(window.innerHeight*0.72,640); }
+    else { pw = vw<1024 ? Math.min((vw-90)/2,380) : 440; bh=Math.min(window.innerHeight*0.74,600); }
+    spread.style.setProperty('--pw',pw+'px');
+    spread.style.width=(mode==='single'?pw:pw*2)+'px';
+    spread.style.height=bh+'px';
+    curPw=pw;
+    if(castEl) castEl.style.width=pw+'px';
+    var qc=stage.querySelector('.quote-cover'); if(qc){ qc.style.width=pw+'px'; qc.style.height=bh+'px'; }
+    leafEls.forEach(function(el){ el.style.left = (mode==='single'?0:pw)+'px'; });
+  }
+
+  function build(){
+    scroll.classList.remove('is-static');
+    countEl.parentNode.style.display='';
+    mode = window.innerWidth<760 ? 'single' : 'spread';
+    var list=filtered(); P=Math.ceil(list.length/2); PT=P;
+    var pn=0, pages=[];
+    for(var i=0;i<list.length;i+=2){ pn++; pages.push({type:'page', a:list[i], b:list[i+1]||null, n:pn}); }
+
+    leaves=[];
+    if(mode==='single'){
+      // closed cover + one review page per leaf
+      [{type:'cover'}].concat(pages).forEach(function(f){ leaves.push({front:f, back:{type:'blank'}}); });
+    } else {
+      // real book: cover front + reviews across every facing page
+      var faces=[{type:'cover'}].concat(pages);
+      if(faces.length%2) faces.push({type:'blank'});
+      for(var j=0;j<faces.length;j+=2){ leaves.push({front:faces[j], back:faces[j+1]}); }
+    }
+    L=leaves.length;
+    // reading turns: turn every leaf whose content must be seen
+    if(mode==='single'){ R=Math.max(1,L-1); }
+    else { R = (leaves[L-1].back && leaves[L-1].back.type==='page') ? L : Math.max(1,L-1); }
+    TT = R + 1.7;   // + closing sequence + quote reveal
+
+    spread.className='book-spread '+(mode==='single'?'is-single':'is-spread'); spread.innerHTML=''; leafEls=[];
+    var bb=document.createElement('div'); bb.className='base-board'; spread.appendChild(bb);
+    leaves.forEach(function(lf){
+      var el=document.createElement('div'); el.className='leaf';
+      var frontEl=faceEl(lf.front,'front'), backEl=faceEl(lf.back,'back');
+      el.appendChild(frontEl); el.appendChild(backEl);
+      el._front=frontEl; el._back=backEl;
+      var curl=document.createElement('div'); curl.className='leaf-curl';
+      var hi=document.createElement('div'); hi.className='leaf-hi';
+      el.appendChild(curl); el.appendChild(hi); el._curl=curl; el._hi=hi;
+      spread.appendChild(el); leafEls.push(el);
+    });
+    var sp=document.createElement('div'); sp.className='spine-shadow'; spread.appendChild(sp);
+    castEl=document.createElement('div'); castEl.className='book-cast'; spread.appendChild(castEl);
+    edgeL=null; edgeB=null;
+    ['r','l','b'].forEach(function(k){ var e=document.createElement('div'); e.className='book-edge '+k; spread.appendChild(e); if(k==='l')edgeL=e; if(k==='b')edgeB=e; });
+    bookEl=stage.querySelector('.book');
+    quoteEl=stage.querySelector('.book-quote');
+    if(!quoteEl){ quoteEl=document.createElement('div'); quoteEl.className='book-quote'; quoteEl.innerHTML='<div class="quote-cover"><div class="closing-q">“Teach with clarity. Leave room for curiosity.”</div></div>'; stage.appendChild(quoteEl); }
+
+    scroll.style.setProperty('--nav-h', navH()+'px');
+    scroll.style.height = 'calc(140vh - '+navH()+'px)';
+    buildStops();
+    IDX=Math.min(IDX,MAX);
+    setDims();
+    tRender=stops[IDX]; renderLeaves(tRender);
+    bindWheel();
+  }
+
+  var tRender=0;
+
+  function easeInOut(x){ return x<0.5 ? 2*x*x : 1-Math.pow(-2*x+2,2)/2; }
+
+  function renderLeaves(t){
+    var active=-1, afr=0;
+    var c=Math.max(0,Math.min(1, t-R));            // closing progress
+    var ce=easeInOut(c);
+    var qp=Math.max(0,Math.min(1,(t-R-1)/0.7));    // quote reveal after the book has shut
+    var openness=easeInOut(Math.max(0,Math.min(1,t)));
+    var closedness=Math.max(1-openness, ce);
+    // the closed book sits centred; it slides into the spread position as it opens
+    var dx=(mode==='single')?0:(-curPw/2*closedness);
+    spread.style.transform='rotateX(7deg) translateX('+dx.toFixed(1)+'px)';
+    spread.style.setProperty('--bl', (mode==='single'?0:(curPw*closedness)).toFixed(1)+'px');
+    if(edgeL) edgeL.style.opacity=(1-closedness).toFixed(2);
+    if(edgeB) edgeB.style.opacity=(1-closedness*0.6).toFixed(2);
+
+    for(var i=0;i<leafEls.length;i++){
+      var el=leafEls[i];
+      el.style.opacity='1';
+      var rt=Math.min(t,R);
+      var fr=Math.max(0,Math.min(1, rt-i));         // reading fraction, frozen once closing starts
+      var rotFr=fr*(1-ce);                          // fold every read leaf back as the book closes
+      var f=easeInOut(rotFr);
+      var rot=-180*f;
+      var mid=(c>0.001)?0:Math.sin(fr*Math.PI);
+      var dir=(fr<0.5?1:-1);
+      var bend=mid*1.6*dir;
+      var fore=(1-mid*0.045).toFixed(3);
+      el.style.transform='rotateY('+rot+'deg) translateZ('+(mid*16)+'px) skewY('+bend+'deg) scaleX('+fore+')';
+      var z;
+      if(c<=0.001 && fr>0 && fr<1){ z=2*L+5; }        // actively turning page on top
+      else { z = (rot<=-90) ? (L+i+1) : (L-i); }      // left pile order / cover-on-top when shut
+      el.style.zIndex=z;
+      if(el._front) el._front.style.visibility = rot>-90 ? 'visible' : 'hidden';
+      if(el._back)  el._back.style.visibility  = rot>-90 ? 'hidden' : 'visible';
+      if(c<=0.001 && fr>0 && fr<1){
+        active=i; afr=fr;
+        // bowed free-edge silhouette — the sheet visibly curves while turning
+        var pts='';
+        for(var s2=1;s2<6;s2++){
+          var y=s2*100/6;
+          var inset=mid*5*Math.sin(Math.PI*y/100);
+          pts+=(100-inset).toFixed(2)+'% '+y.toFixed(1)+'%, ';
+        }
+        el.style.clipPath='polygon(0% 0%, 100% 0%, '+pts+'100% 100%, 0% 100%)';
+      } else {
+        el.style.clipPath='';
+      }
+      if(el._curl){
+        el._curl.style.opacity=mid.toFixed(3);
+        if(mid>0.001){
+          var cx=100*(1-fr);
+          var a=Math.max(0,cx-16), b=Math.max(0,cx-8), c2=Math.min(100,cx+7), d=Math.min(100,cx+18);
+          el._curl.style.background='linear-gradient(100deg,'+
+            'rgba(60,45,15,0) '+a+'%,'+
+            'rgba(60,45,15,.26) '+b+'%,'+
+            'rgba(255,255,255,.55) '+cx+'%,'+
+            'rgba(60,45,15,.20) '+c2+'%,'+
+            'rgba(60,45,15,0) '+d+'%)';
+        }
+      }
+      if(el._hi)   el._hi.style.opacity=(mid*0.5).toFixed(3);
+    }
+    // shadow the lifted page casts on the sheet beneath it
+    if(castEl){
+      var am=Math.sin(afr*Math.PI);
+      if(active<0 || am<0.02){ castEl.style.opacity='0'; }
+      else{
+        castEl.style.zIndex=String(2*L+2);
+        if(mode==='single'){
+          castEl.style.left='0px';
+          castEl.style.opacity = afr<0.5 ? (am*0.4).toFixed(3) : '0';
+        } else {
+          castEl.style.left=(afr<0.5?curPw:0)+'px';
+          castEl.style.opacity=(am*0.4).toFixed(3);
+        }
+      }
+    }
+    // once the book has closed, the quote appears as the final reflection
+    if(bookEl) bookEl.style.opacity=(1-qp*0.85).toFixed(3);
+    if(quoteEl){
+      quoteEl.style.opacity=qp.toFixed(3);
+      quoteEl.style.transform='translateY('+((1-qp)*16).toFixed(1)+'px)';
+    }
+    var pr = R ? Math.min(1,Math.max(0,t/R)) : 0;
+    var pg=Math.min(PT,Math.max(1,Math.floor(pr*PT)+(pr>=1?0:1))); if(pr>=1) pg=PT;
+    countEl.innerHTML='<b>'+pad2(pg)+'</b> / '+pad2(PT);
+  }
+
+  // ---- discrete page-turn engine: one deliberate gesture turns exactly one page ----
+  // stops: 0 = closed cover, 1..R = readable spreads, last = book closes + quote reveal (t=TT)
+  function buildStops(){
+    stops=[]; for(var i=0;i<=R;i++) stops.push(i); stops.push(TT); MAX=stops.length-1;
+  }
+
+  function turnTo(ni){
+    ni=Math.max(0,Math.min(MAX,ni));
+    if(state!=='idle' || ni===IDX) return;              // lock: ignore input while a turn is running
+    var from=stops[IDX], to=stops[ni]; IDX=ni;
+    state = to>from ? 'turningForward' : 'turningBackward';
+    if(reduceMQ.matches){ tRender=to; renderLeaves(to); state='idle'; return; }
+    var dur=560, start=performance.now();
+    cancelAnimationFrame(animID); clearTimeout(animWatch);
+    function settle(){ cancelAnimationFrame(animID); clearTimeout(animWatch); tRender=to; renderLeaves(to); state='idle'; }
+    animWatch=setTimeout(settle, dur+140);   // watchdog: never leave a page half-turned / input locked
+    animID=requestAnimationFrame(function frame(now){
+      var p=Math.min(1,(now-start)/dur), e=easeInOut(p);
+      tRender=from+(to-from)*e; renderLeaves(tRender);
+      if(p<1){ animID=requestAnimationFrame(frame); }
+      else { settle(); }   // atomic settle on the new spread
+    });
+  }
+  function step(dir){ turnTo(IDX+dir); }
+
+  // ---- scroll capture: while the pinned book still has pages, one wheel gesture = one turn ----
+  function engaged(){
+    if(reduceMQ.matches || released) return false;
+    var r=stage.getBoundingClientRect(), nh=navH();
+    return r.top<=nh+2 && r.bottom>=window.innerHeight-2;   // book is pinned & filling the viewport
+  }
+  function releaseDir(dir){
+    released=true; state='idle'; wheelAccum=0; locked=false;
+    var base=scroll.getBoundingClientRect().top+window.pageYOffset;
+    var dest = dir>0 ? base+scroll.offsetHeight-(window.innerHeight-navH()) : base-(window.innerHeight-navH());
+    window.scrollTo({top:Math.max(0,Math.round(dest)), behavior:'smooth'});
+    setTimeout(function(){ released=false; }, 800);
+  }
+  function onWheel(e){
+    if(!engaged()) return;
+    var dir = e.deltaY>0?1:(e.deltaY<0?-1:0); if(!dir) return;
+    // at the ends, let the user leave to the neighbouring section
+    if(dir>0 && IDX>=MAX){ e.preventDefault(); releaseDir(1); return; }
+    if(dir<0 && IDX<=0){ e.preventDefault(); releaseDir(-1); return; }
+    e.preventDefault();                                   // hold the book still; wheel only turns pages
+    var now=performance.now();
+    if(state!=='idle' || locked){ lastWheel=now; return; } // one continuous gesture can't turn twice
+    wheelAccum+=e.deltaY;
+    if(Math.abs(wheelAccum)>=28){
+      var d=wheelAccum>0?1:-1; wheelAccum=0; locked=true;
+      step(d);
+      var chk=setInterval(function(){                      // unlock only after the gesture has stopped
+        if(state==='idle' && performance.now()-lastWheel>150){ clearInterval(chk); locked=false; }
+      },50);
+    }
+    lastWheel=now;
+  }
+  function bindWheel(){ if(!wheelBound){ window.addEventListener('wheel', onWheel, {passive:false}); wheelBound=true; } }
+
+  // buttons, keys and swipe all call the same one-page navigation
+  prevBtn.addEventListener('click', function(){ step(-1); });
+  nextBtn.addEventListener('click', function(){ step(1); });
+  scroll.setAttribute('tabindex','-1');
+  scroll.addEventListener('keydown', function(e){
+    if(e.key==='ArrowLeft'){ e.preventDefault(); step(-1); }
+    else if(e.key==='ArrowRight'){ e.preventDefault(); step(1); }
+  });
+  var sx=0,sy=0,sw=false;
+  stage.addEventListener('pointerdown', function(e){ if(e.target.closest('.book-btn'))return; sw=true; sx=e.clientX; sy=e.clientY; });
+  window.addEventListener('pointerup', function(e){
+    if(!sw)return; sw=false;
+    var dx=e.clientX-sx, dy=e.clientY-sy;
+    if(Math.abs(dx)>50 && Math.abs(dx)>Math.abs(dy)){ step(dx<0?1:-1); }   // one completed swipe = one page
+  });
+
+  function rebuild(reset){
+    if(reduceMQ.matches){ buildStatic(); return; }
+    if(reset) IDX=0;
+    build();
+  }
+
+  // filters
+  document.querySelectorAll('#vfilters .vpill').forEach(function(b){
+    b.addEventListener('click', function(){
+      document.querySelectorAll('#vfilters .vpill').forEach(function(x){x.classList.remove('on');});
+      b.classList.add('on'); cur=b.getAttribute('data-cat'); rebuild(true);
+    });
+  });
+
+  var rzt, lastMode=mode;
+  window.addEventListener('resize', function(){
+    clearTimeout(rzt); rzt=setTimeout(function(){
+      if(reduceMQ.matches){ buildStatic(); return; }
+      var nm = window.innerWidth<760 ? 'single':'spread';
+      if(nm!==mode){ build(); } else { scroll.style.setProperty('--nav-h',navH()+'px'); setDims(); renderLeaves(stops[IDX]); }
+    },140);
+  }, {passive:true});
+  if(reduceMQ.addEventListener) reduceMQ.addEventListener('change', function(){ rebuild(false); });
+
+  rebuild(false);
+  window.addEventListener('load', function(){ if(!reduceMQ.matches){ scroll.style.setProperty('--nav-h',navH()+'px'); setDims(); renderLeaves(stops[IDX]); } });
+})();
+</script>
+<script src="js/site.js"></script>
+</body>
+</html>
